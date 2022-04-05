@@ -30,13 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnApply = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.textBoxS = new System.Windows.Forms.TextBox();
             this.textBoxB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxTimer = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.labelGenNum = new System.Windows.Forms.Label();
+            this.labelGenCount = new System.Windows.Forms.Label();
             this.labelGen = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
@@ -48,7 +50,6 @@
             this.labelRes = new System.Windows.Forms.Label();
             this.pctrBox = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -69,6 +70,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnApply);
             this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.textBoxS);
             this.splitContainer1.Panel1.Controls.Add(this.textBoxB);
@@ -76,7 +78,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.comboBoxTimer);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
-            this.splitContainer1.Panel1.Controls.Add(this.labelGenNum);
+            this.splitContainer1.Panel1.Controls.Add(this.labelGenCount);
             this.splitContainer1.Panel1.Controls.Add(this.labelGen);
             this.splitContainer1.Panel1.Controls.Add(this.btnClear);
             this.splitContainer1.Panel1.Controls.Add(this.btnNext);
@@ -90,14 +92,40 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pctrBox);
-            this.splitContainer1.Size = new System.Drawing.Size(1087, 919);
+            this.splitContainer1.Size = new System.Drawing.Size(1061, 750);
             this.splitContainer1.SplitterDistance = 100;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // btnApply
+            // 
+            this.btnApply.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnApply.AutoSize = true;
+            this.btnApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnApply.Location = new System.Drawing.Point(890, 17);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(124, 30);
+            this.btnApply.TabIndex = 18;
+            this.btnApply.Text = "Apply settings";
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.BtnApply_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.button1.AutoSize = true;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Location = new System.Drawing.Point(398, 17);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(161, 30);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "Generate randomly";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.BtnRandom_Click);
             // 
             // textBoxS
             // 
             this.textBoxS.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxS.Location = new System.Drawing.Point(754, 55);
+            this.textBoxS.Location = new System.Drawing.Point(744, 55);
             this.textBoxS.Name = "textBoxS";
             this.textBoxS.Size = new System.Drawing.Size(130, 27);
             this.textBoxS.TabIndex = 16;
@@ -106,7 +134,7 @@
             // textBoxB
             // 
             this.textBoxB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxB.Location = new System.Drawing.Point(754, 19);
+            this.textBoxB.Location = new System.Drawing.Point(744, 19);
             this.textBoxB.Name = "textBoxB";
             this.textBoxB.Size = new System.Drawing.Size(130, 27);
             this.textBoxB.TabIndex = 15;
@@ -139,8 +167,7 @@
             this.comboBoxTimer.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.comboBoxTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxTimer.Items.AddRange(new object[] {
-            "1",
-            "20",
+            "25",
             "50",
             "100",
             "250",
@@ -151,8 +178,7 @@
             this.comboBoxTimer.Size = new System.Drawing.Size(80, 28);
             this.comboBoxTimer.TabIndex = 12;
             this.comboBoxTimer.Tag = "";
-            this.comboBoxTimer.Text = "50";
-            this.comboBoxTimer.TextChanged += new System.EventHandler(this.comboBoxTimer_TextChanged);
+            this.comboBoxTimer.TextChanged += new System.EventHandler(this.ComboBoxTimer_TextChanged);
             // 
             // label1
             // 
@@ -165,16 +191,16 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "Timer (ms):";
             // 
-            // labelGenNum
+            // labelGenCount
             // 
-            this.labelGenNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelGenNum.AutoSize = true;
-            this.labelGenNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelGenNum.Location = new System.Drawing.Point(670, 38);
-            this.labelGenNum.Name = "labelGenNum";
-            this.labelGenNum.Size = new System.Drawing.Size(18, 20);
-            this.labelGenNum.TabIndex = 10;
-            this.labelGenNum.Text = "0";
+            this.labelGenCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelGenCount.AutoSize = true;
+            this.labelGenCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelGenCount.Location = new System.Drawing.Point(670, 38);
+            this.labelGenCount.Name = "labelGenCount";
+            this.labelGenCount.Size = new System.Drawing.Size(18, 20);
+            this.labelGenCount.TabIndex = 10;
+            this.labelGenCount.Text = "0";
             // 
             // labelGen
             // 
@@ -204,7 +230,6 @@
             // 
             this.btnNext.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnNext.AutoSize = true;
-            this.btnNext.Enabled = false;
             this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnNext.Location = new System.Drawing.Point(317, 17);
             this.btnNext.Name = "btnNext";
@@ -212,7 +237,7 @@
             this.btnNext.TabIndex = 7;
             this.btnNext.Text = "Next";
             this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            this.btnNext.Click += new System.EventHandler(this.BtnNext_Click);
             // 
             // btnStop
             // 
@@ -226,7 +251,7 @@
             this.btnStop.TabIndex = 6;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnStop.Click += new System.EventHandler(this.BtnStop_Click);
             // 
             // btnStart
             // 
@@ -287,7 +312,7 @@
             0,
             0});
             this.numUpDownRes.Minimum = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});
@@ -295,7 +320,7 @@
             this.numUpDownRes.Size = new System.Drawing.Size(57, 27);
             this.numUpDownRes.TabIndex = 2;
             this.numUpDownRes.Value = new decimal(new int[] {
-            4,
+            8,
             0,
             0,
             0});
@@ -309,45 +334,35 @@
             this.labelRes.Name = "labelRes";
             this.labelRes.Size = new System.Drawing.Size(138, 20);
             this.labelRes.TabIndex = 1;
-            this.labelRes.Text = "Resolution (1-20)";
+            this.labelRes.Text = "Resolution (2-20)";
             // 
             // pctrBox
             // 
             this.pctrBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pctrBox.Location = new System.Drawing.Point(0, 0);
             this.pctrBox.Name = "pctrBox";
-            this.pctrBox.Size = new System.Drawing.Size(1083, 811);
+            this.pctrBox.Size = new System.Drawing.Size(1057, 642);
             this.pctrBox.TabIndex = 0;
             this.pctrBox.TabStop = false;
+            this.pctrBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pctrBox_MouseClick);
+            this.pctrBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pctrBox_MouseClick);
             // 
             // timer1
             // 
             this.timer1.Interval = 50;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // button1
-            // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button1.AutoSize = true;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(398, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(149, 30);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Generate random";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnRandom_Click);
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1087, 919);
+            this.ClientSize = new System.Drawing.Size(1061, 750);
             this.Controls.Add(this.splitContainer1);
-            this.MinimumSize = new System.Drawing.Size(560, 840);
+            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(1050, 600);
             this.Name = "Form1";
             this.Text = "Game of Life";
-            this.Resize += new System.EventHandler(this.Form1_Resize);
+            this.ResizeEnd += new System.EventHandler(this.Form1_Resize);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -373,7 +388,7 @@
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label labelGenNum;
+        private System.Windows.Forms.Label labelGenCount;
         private System.Windows.Forms.Label labelGen;
         private System.Windows.Forms.ComboBox comboBoxTimer;
         private System.Windows.Forms.Label label1;
@@ -382,6 +397,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnApply;
     }
 }
 

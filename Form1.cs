@@ -8,21 +8,27 @@ namespace Game_Of_Life
     public partial class Form1 : Form
     {
         private Graphics g;
-        private Random rnd = new Random();
+        private readonly Random rnd = new Random();
 
+        /// <summary>
+        /// Правило рождения новой клетки.
+        /// </summary>
         private int[] B;
 
+        /// <summary>
+        /// Правило выживания клеток.
+        /// </summary>
         private int[] S;
 
         /// <summary>
-        /// Стандартное значение интервала таймера в миллисекундах
+        /// Стандартное значение интервала таймера в миллисекундах.
         /// </summary>
-        private readonly int defaultTimerInterval = 20;
+        private readonly int defaultTimerInterval = 25;
 
         /// <summary>
-        /// Номер текущего поколения
+        /// Номер текущего поколения.
         /// </summary>
-        private int generationCount = 0;
+        private int genCount = 0;
 
         /// <summary>
         /// Цвет фона
@@ -30,138 +36,123 @@ namespace Game_Of_Life
         private readonly Color backgroundColor = Color.Black;
 
         /// <summary>
-        /// Цвет клеток
+        /// Цвет клеток.
         /// </summary>
-        private readonly Brush foregroundColor = Brushes.White;
+        private readonly Brush foregroundColor = Brushes.LightGray;
 
         /// <summary>
-        /// Длина стороны квадрата, занимаемого одной клеткой, в пикселях
+        /// Длина стороны квадрата, занимаемого одной клеткой, в пикселях.
         /// </summary>
-        private int resolution;
+        private int res = 4;
 
         /// <summary>
-        /// Плотность (чем меньше значение, тем больше вероятность появления клетки)
+        /// Плотность (чем меньше значение, тем больше вероятность появления клетки). Используется для создания случайного поля.
         /// </summary>
-        private int density;
+        private int density = 10;
 
         /// <summary>
-        /// Двумерный массив поля
+        /// Поле
         /// </summary>
         private bool[,] field;
 
         private int rows, cols;
 
-        private bool firstStart = true;
-
         public Form1()
         {
             InitializeComponent();
-            pctrBox.Image = new Bitmap(Width, Height);
-            g = Graphics.FromImage(pctrBox.Image);
-            g.Clear(backgroundColor);
+            ApplySettings();
+            CreateField();
+            timer1.Interval = defaultTimerInterval;
             comboBoxTimer.Text = defaultTimerInterval.ToString();
-            pctrBox.Refresh();
+            DrawField();
         }
 
+        /// <summary>
+        /// Запуск таймера
+        /// </summary>
         private void StartGame()
         {
-            if (timer1.Enabled)
-                return;
-
             timer1.Start();
 
+            btnApply.Enabled = false;
             numUpDownRes.Enabled = false;
             numUpDownDensity.Enabled = false;
-            btnStart.Enabled = false;
             btnNext.Enabled = false;
-            btnClear.Enabled = false;
+            btnStart.Enabled = false;
             btnStop.Enabled = true;
-            /*
-                        if (firstStart)
-                        {
-                            B = textBoxB.Text.Split(' ').Select(Int32.Parse).ToArray();
-                            S = textBoxS.Text.Split(' ').Select(Int32.Parse).ToArray();
 
-                            resolution = (int)numUpDownRes.Value;
-                            density = (int)numUpDownDensity.Value;
-
-                            rows = pctrBox.Height / resolution;
-                            cols = pctrBox.Width / resolution;
-                            field = new bool[cols, rows];
-
-                            firstStart = false;
-                        }*/
+            FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
+        /// <summary>
+        /// Остановка таймера
+        /// </summary>
         private void StopGame()
         {
-            if (!timer1.Enabled)
-                return;
-
             timer1.Stop();
 
+            btnApply.Enabled = true;
             numUpDownRes.Enabled = true;
             numUpDownDensity.Enabled = true;
-            btnStart.Enabled = true;
             btnNext.Enabled = true;
-            btnClear.Enabled = true;
+            btnStart.Enabled = true;
             btnStop.Enabled = false;
+
+            FormBorderStyle = FormBorderStyle.Sizable;
         }
 
+        /// <summary>
+        /// Генерация нового поколения
+        /// </summary>
         private void NextGeneration()
         {
-            g.Clear(backgroundColor);
-
             var newField = new bool[cols, rows];
+            int neighboursCount;
 
             for (int i = 0; i < cols; i++)
             {
                 for (int j = 0; j < rows; j++)
                 {
-                    var neighboursCount = CountNeighbours(i, j);
-                    var hasLife = field[i, j];
+                    neighboursCount = CountNeighbours(i, j);
 
-                    if (!hasLife && B.Contains(neighboursCount))
+                    if (!field[i, j] && B.Contains(neighboursCount))
                         newField[i, j] = true;
-                    else if (hasLife && !S.Contains(neighboursCount))
+                    else if (field[i, j] && !S.Contains(neighboursCount))
                         newField[i, j] = false;
                     else newField[i, j] = field[i, j];
-                    Draw(i, j);
                 }
             }
+
             field = newField;
-            generationCount++;
-            labelGenNum.Text = generationCount.ToString();
-            pctrBox.Refresh();
+            genCount++;
+            labelGenCount.Text = genCount.ToString();
         }
 
-        private void Draw(int i, int j)
-        {
-            if (field[i, j])
-                g.FillRectangle(foregroundColor, i * resolution, j * resolution, resolution, resolution);
-        }
-
+        /// <summary>
+        /// Подсчет соседей клетки
+        /// </summary>
         private int CountNeighbours(int x, int y)
         {
             int count = 0;
-            for (int i = -1; i < 2; i++)
+            for (int i = -1; i <= 1; i++)
             {
-                for (int j = -1; j < 2; j++)
+                for (int j = -1; j <= 1; j++)
                 {
                     int col = (x + i + cols) % cols;
                     int row = (y + j + rows) % rows;
-                    bool isSelfChecking = col == x && row == y;
-                    bool hasLife = field[col, row];
+                    bool isSelfChecking = (col == x && row == y);
 
-                    if (hasLife && !isSelfChecking) count++;
+                    if (field[col, row] && !isSelfChecking)
+                        count++;
                 }
             }
             return count;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             NextGeneration();
+            DrawField();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -171,11 +162,8 @@ namespace Game_Of_Life
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            g.Clear(backgroundColor);
-            btnNext.Enabled = false;
-            generationCount = 0;
-            labelGenNum.Text = generationCount.ToString();
-            firstStart = true;
+            genCount = 0;
+            labelGenCount.Text = genCount.ToString();
 
             for (int i = 0; i < cols; i++)
             {
@@ -184,30 +172,28 @@ namespace Game_Of_Life
                     field[i, j] = false;
                 }
             }
-            pctrBox.Refresh();
+            StopGame();
+            DrawField();
         }
 
-        private void btnNext_Click(object sender, EventArgs e)
+        private void BtnNext_Click(object sender, EventArgs e)
         {
             NextGeneration();
+            DrawField();
         }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            if (timer1.Enabled)
-                return;
-
-            pctrBox.Image = new Bitmap(Width, Height);
-            g = Graphics.FromImage(pctrBox.Image);
-            g.Clear(backgroundColor);
-            pctrBox.Refresh();
+            if (!timer1.Enabled)
+            {
+                CreateField();
+                DrawField();
+            }
         }
 
-        private void comboBoxTimer_TextChanged(object sender, EventArgs e)
+        private void ComboBoxTimer_TextChanged(object sender, EventArgs e)
         {
-            int interval;
-
-            if (!Int32.TryParse(comboBoxTimer.Text, out interval) || comboBoxTimer.Text[0] == '0' ||
+            if (!Int32.TryParse(comboBoxTimer.Text, out int interval) || comboBoxTimer.Text[0] == '0' ||
                 comboBoxTimer.Text.Contains(" ") || comboBoxTimer.Text == "" ||
                 Int32.Parse(comboBoxTimer.Text) <= 0)
             {
@@ -218,35 +204,100 @@ namespace Game_Of_Life
             else timer1.Interval = interval;
         }
 
-        private void btnRandom_Click(object sender, EventArgs e)
+        private void BtnRandom_Click(object sender, EventArgs e)
         {
-            g.Clear(backgroundColor);
-            B = textBoxB.Text.Split(' ').Select(Int32.Parse).ToArray();
-            S = textBoxS.Text.Split(' ').Select(Int32.Parse).ToArray();
-
-            resolution = (int)numUpDownRes.Value;
-            density = (int)numUpDownDensity.Value;
-
-            rows = pctrBox.Height / resolution;
-            cols = pctrBox.Width / resolution;
-            field = new bool[cols, rows];
             for (int i = 0; i < cols; i++)
             {
                 for (int j = 0; j < rows; j++)
                 {
                     field[i, j] = rnd.Next(density) == 0;
-                    Draw(i, j);
                 }
             }
-            firstStart = false;
-            generationCount = 0;
-            labelGenNum.Text = generationCount.ToString();
-            pctrBox.Invalidate();
+            DrawField();
+            genCount = 0;
+            labelGenCount.Text = genCount.ToString();
         }
 
-        private void btnStop_Click(object sender, EventArgs e)
+        private void BtnStop_Click(object sender, EventArgs e)
         {
             StopGame();
+        }
+
+        /// <summary>
+        /// Перерисовка поля.
+        /// </summary>
+        private void DrawField()
+        {
+            g.Clear(backgroundColor);
+            for (int i = 0; i < cols; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    if (field[i, j])
+                        g.FillRectangle(foregroundColor, i * res, j * res, res, res); // клетки
+                }
+            }
+
+            for (int i = 0; i <= cols; i++) // Сетка
+            {
+                g.DrawLine(Pens.DarkSlateGray, i * res, 0, i * res, rows * res);
+            }
+
+            for (int i = 0; i <= rows; i++) // Сетка
+            {
+                g.DrawLine(Pens.DarkSlateGray, 0, i * res, cols * res, i * res);
+            }
+
+            pctrBox.Refresh();
+        }
+
+        private void CreateField()
+        {
+            pctrBox.Image = new Bitmap(Width, Height);
+            g = Graphics.FromImage(pctrBox.Image);
+
+            rows = pctrBox.Height / res;
+            cols = pctrBox.Width / res;
+            field = new bool[cols, rows];
+        }
+
+        private void pctrBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                var i = e.Location.X / res;
+                var j = e.Location.Y / res;
+                if (ValidateMousePosition(i, j))
+                    field[i, j] = true;
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                var i = e.Location.X / res;
+                var j = e.Location.Y / res;
+                if (ValidateMousePosition(i, j))
+                    field[i, j] = false;
+            }
+
+            if (!timer1.Enabled)
+                DrawField();
+        }
+
+        private void BtnApply_Click(object sender, EventArgs e) => ApplySettings();
+
+        private void ApplySettings()
+        {
+            B = textBoxB.Text.Split(' ').Select(Int32.Parse).ToArray();
+            S = textBoxS.Text.Split(' ').Select(Int32.Parse).ToArray();
+
+            res = (int)numUpDownRes.Value;
+            density = (int)numUpDownDensity.Value;
+            CreateField();
+            DrawField();
+        }
+
+        private bool ValidateMousePosition(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < cols && y < rows;
         }
     }
 }
