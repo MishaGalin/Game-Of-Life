@@ -29,7 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.labelSpeedNum = new System.Windows.Forms.Label();
+            this.labelSpeed = new System.Windows.Forms.Label();
             this.btnApply = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBoxS = new System.Windows.Forms.TextBox();
@@ -50,6 +53,8 @@
             this.labelRes = new System.Windows.Forms.Label();
             this.pctrBox = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.btnSearch = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -70,6 +75,9 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnSearch);
+            this.splitContainer1.Panel1.Controls.Add(this.labelSpeedNum);
+            this.splitContainer1.Panel1.Controls.Add(this.labelSpeed);
             this.splitContainer1.Panel1.Controls.Add(this.btnApply);
             this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.textBoxS);
@@ -96,6 +104,28 @@
             this.splitContainer1.SplitterDistance = 100;
             this.splitContainer1.TabIndex = 0;
             // 
+            // labelSpeedNum
+            // 
+            this.labelSpeedNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelSpeedNum.AutoSize = true;
+            this.labelSpeedNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSpeedNum.Location = new System.Drawing.Point(693, 58);
+            this.labelSpeedNum.Name = "labelSpeedNum";
+            this.labelSpeedNum.Size = new System.Drawing.Size(18, 20);
+            this.labelSpeedNum.TabIndex = 20;
+            this.labelSpeedNum.Text = "0";
+            // 
+            // labelSpeed
+            // 
+            this.labelSpeed.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelSpeed.AutoSize = true;
+            this.labelSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSpeed.Location = new System.Drawing.Point(568, 58);
+            this.labelSpeed.Name = "labelSpeed";
+            this.labelSpeed.Size = new System.Drawing.Size(119, 20);
+            this.labelSpeed.TabIndex = 19;
+            this.labelSpeed.Text = "Speed (gen\\s):";
+            // 
             // btnApply
             // 
             this.btnApply.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -103,7 +133,7 @@
             this.btnApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnApply.Location = new System.Drawing.Point(890, 17);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(124, 30);
+            this.btnApply.Size = new System.Drawing.Size(144, 30);
             this.btnApply.TabIndex = 18;
             this.btnApply.Text = "Apply settings";
             this.btnApply.UseVisualStyleBackColor = true;
@@ -196,7 +226,7 @@
             this.labelGenCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelGenCount.AutoSize = true;
             this.labelGenCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelGenCount.Location = new System.Drawing.Point(670, 38);
+            this.labelGenCount.Location = new System.Drawing.Point(670, 22);
             this.labelGenCount.Name = "labelGenCount";
             this.labelGenCount.Size = new System.Drawing.Size(18, 20);
             this.labelGenCount.TabIndex = 10;
@@ -207,7 +237,7 @@
             this.labelGen.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelGen.AutoSize = true;
             this.labelGen.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelGen.Location = new System.Drawing.Point(568, 38);
+            this.labelGen.Location = new System.Drawing.Point(568, 22);
             this.labelGen.Name = "labelGen";
             this.labelGen.Size = new System.Drawing.Size(96, 20);
             this.labelGen.TabIndex = 9;
@@ -352,12 +382,31 @@
             this.timer1.Interval = 50;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
+            // timer2
+            // 
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnSearch.AutoSize = true;
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSearch.Location = new System.Drawing.Point(890, 53);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(144, 30);
+            this.btnSearch.TabIndex = 21;
+            this.btnSearch.Text = "Structure search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1061, 750);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1050, 600);
             this.Name = "Form1";
@@ -398,6 +447,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnApply;
+        private System.Windows.Forms.Label labelSpeedNum;
+        private System.Windows.Forms.Label labelSpeed;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
 

@@ -5,6 +5,10 @@ using System.Windows.Forms;
 
 namespace Game_Of_Life
 {
+    public class Field
+    {
+    }
+
     public partial class Form1 : Form
     {
         private Graphics g;
@@ -28,17 +32,17 @@ namespace Game_Of_Life
         /// <summary>
         /// Номер текущего поколения.
         /// </summary>
-        private int genCount = 0;
+        private int genCount = 0, genPerSecond = 0;
 
         /// <summary>
-        /// Цвет фона
+        /// Цвет фона.
         /// </summary>
         private readonly Color backgroundColor = Color.Black;
 
         /// <summary>
         /// Цвет клеток.
         /// </summary>
-        private readonly Brush foregroundColor = Brushes.LightGray;
+        private readonly Brush foregroundColor = Brushes.White;
 
         /// <summary>
         /// Длина стороны квадрата, занимаемого одной клеткой, в пикселях.
@@ -51,7 +55,7 @@ namespace Game_Of_Life
         private int density = 10;
 
         /// <summary>
-        /// Поле
+        /// Поле.
         /// </summary>
         private bool[,] field;
 
@@ -73,6 +77,7 @@ namespace Game_Of_Life
         private void StartGame()
         {
             timer1.Start();
+            timer2.Start();
 
             btnApply.Enabled = false;
             numUpDownRes.Enabled = false;
@@ -90,6 +95,7 @@ namespace Game_Of_Life
         private void StopGame()
         {
             timer1.Stop();
+            timer2.Stop();
 
             btnApply.Enabled = true;
             numUpDownRes.Enabled = true;
@@ -97,6 +103,8 @@ namespace Game_Of_Life
             btnNext.Enabled = true;
             btnStart.Enabled = true;
             btnStop.Enabled = false;
+
+            labelSpeedNum.Text = "0";
 
             FormBorderStyle = FormBorderStyle.Sizable;
         }
@@ -106,7 +114,7 @@ namespace Game_Of_Life
         /// </summary>
         private void NextGeneration()
         {
-            var newField = new bool[cols, rows];
+            bool[,] newField = new bool[cols, rows];
             int neighboursCount;
 
             for (int i = 0; i < cols; i++)
@@ -119,12 +127,14 @@ namespace Game_Of_Life
                         newField[i, j] = true;
                     else if (field[i, j] && !S.Contains(neighboursCount))
                         newField[i, j] = false;
-                    else newField[i, j] = field[i, j];
+                    else
+                        newField[i, j] = field[i, j];
                 }
             }
 
             field = newField;
             genCount++;
+            genPerSecond++;
             labelGenCount.Text = genCount.ToString();
         }
 
@@ -162,6 +172,11 @@ namespace Game_Of_Life
 
         private void btnClear_Click(object sender, EventArgs e)
         {
+            ClearField();
+        }
+
+        private void ClearField()
+        {
             genCount = 0;
             labelGenCount.Text = genCount.ToString();
 
@@ -193,18 +208,25 @@ namespace Game_Of_Life
 
         private void ComboBoxTimer_TextChanged(object sender, EventArgs e)
         {
-            if (!Int32.TryParse(comboBoxTimer.Text, out int interval) || comboBoxTimer.Text[0] == '0' ||
+            if (!int.TryParse(comboBoxTimer.Text, out int interval) || comboBoxTimer.Text[0] == '0' ||
                 comboBoxTimer.Text.Contains(" ") || comboBoxTimer.Text == "" ||
-                Int32.Parse(comboBoxTimer.Text) <= 0)
+                int.Parse(comboBoxTimer.Text) <= 0)
             {
                 timer1.Interval = defaultTimerInterval;
                 comboBoxTimer.Text = defaultTimerInterval.ToString();
                 return;
             }
-            else timer1.Interval = interval;
+            else
+                timer1.Interval = interval;
         }
 
         private void BtnRandom_Click(object sender, EventArgs e)
+        {
+            CreateRandomField();
+            DrawField();
+        }
+
+        private void CreateRandomField()
         {
             for (int i = 0; i < cols; i++)
             {
@@ -213,7 +235,6 @@ namespace Game_Of_Life
                     field[i, j] = rnd.Next(density) == 0;
                 }
             }
-            DrawField();
             genCount = 0;
             labelGenCount.Text = genCount.ToString();
         }
@@ -229,6 +250,7 @@ namespace Game_Of_Life
         private void DrawField()
         {
             g.Clear(backgroundColor);
+
             for (int i = 0; i < cols; i++)
             {
                 for (int j = 0; j < rows; j++)
@@ -256,43 +278,57 @@ namespace Game_Of_Life
             pctrBox.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pctrBox.Image);
 
-            rows = pctrBox.Height / res;
             cols = pctrBox.Width / res;
+            rows = pctrBox.Height / res;
             field = new bool[cols, rows];
         }
 
         private void pctrBox_MouseClick(object sender, MouseEventArgs e)
         {
+            int i = e.Location.X / res;
+            int j = e.Location.Y / res;
             if (e.Button == MouseButtons.Left)
             {
-                var i = e.Location.X / res;
-                var j = e.Location.Y / res;
                 if (ValidateMousePosition(i, j))
                     field[i, j] = true;
             }
             else if (e.Button == MouseButtons.Right)
             {
-                var i = e.Location.X / res;
-                var j = e.Location.Y / res;
                 if (ValidateMousePosition(i, j))
                     field[i, j] = false;
             }
 
             if (!timer1.Enabled)
+
                 DrawField();
         }
 
-        private void BtnApply_Click(object sender, EventArgs e) => ApplySettings();
+        private void BtnApply_Click(object sender, EventArgs e)
+        {
+            ApplySettings();
+            DrawField();
+        }
 
         private void ApplySettings()
         {
-            B = textBoxB.Text.Split(' ').Select(Int32.Parse).ToArray();
-            S = textBoxS.Text.Split(' ').Select(Int32.Parse).ToArray();
+            B = textBoxB.Text.Split(' ').Select(int.Parse).ToArray();
+            S = textBoxS.Text.Split(' ').Select(int.Parse).ToArray();
 
             res = (int)numUpDownRes.Value;
             density = (int)numUpDownDensity.Value;
             CreateField();
-            DrawField();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            SearchForm form2 = new SearchForm();
+            form2.Show();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            labelSpeedNum.Text = genPerSecond.ToString();
+            genPerSecond = 0;
         }
 
         private bool ValidateMousePosition(int x, int y)
