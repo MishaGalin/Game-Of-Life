@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.numUpDownHeight = new System.Windows.Forms.NumericUpDown();
@@ -41,6 +42,8 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label4 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownWidth)).BeginInit();
@@ -48,6 +51,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.numUpDownHeight);
             this.groupBox1.Controls.Add(this.textBoxS);
             this.groupBox1.Controls.Add(this.textBoxB);
@@ -58,16 +63,15 @@
             this.groupBox1.Controls.Add(this.numUpDownWidth);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(588, 87);
+            this.groupBox1.Size = new System.Drawing.Size(562, 87);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Field";
             // 
             // numUpDownHeight
             // 
-            this.numUpDownHeight.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.numUpDownHeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.numUpDownHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.numUpDownHeight.Location = new System.Drawing.Point(120, 51);
             this.numUpDownHeight.Maximum = new decimal(new int[] {
@@ -76,7 +80,7 @@
             0,
             0});
             this.numUpDownHeight.Minimum = new decimal(new int[] {
-            2,
+            3,
             0,
             0,
             0});
@@ -91,9 +95,8 @@
             // 
             // textBoxS
             // 
-            this.textBoxS.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.textBoxS.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxS.Location = new System.Drawing.Point(260, 50);
             this.textBoxS.Name = "textBoxS";
@@ -103,9 +106,8 @@
             // 
             // textBoxB
             // 
-            this.textBoxB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.textBoxB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxB.Location = new System.Drawing.Point(260, 20);
             this.textBoxB.Name = "textBoxB";
@@ -150,7 +152,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 20);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Height (2-6)";
+            this.label1.Text = "Height (3-6)";
             // 
             // labelRes
             // 
@@ -163,13 +165,12 @@
             this.labelRes.Name = "labelRes";
             this.labelRes.Size = new System.Drawing.Size(93, 20);
             this.labelRes.TabIndex = 5;
-            this.labelRes.Text = "Width (2-6)";
+            this.labelRes.Text = "Width (3-6)";
             // 
             // numUpDownWidth
             // 
-            this.numUpDownWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.numUpDownWidth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.numUpDownWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.numUpDownWidth.Location = new System.Drawing.Point(120, 18);
             this.numUpDownWidth.Maximum = new decimal(new int[] {
@@ -178,7 +179,7 @@
             0,
             0});
             this.numUpDownWidth.Minimum = new decimal(new int[] {
-            2,
+            3,
             0,
             0,
             0});
@@ -207,7 +208,7 @@
             // 
             this.progressBar1.Location = new System.Drawing.Point(162, 105);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(438, 30);
+            this.progressBar1.Size = new System.Drawing.Size(289, 30);
             this.progressBar1.TabIndex = 20;
             // 
             // label4
@@ -217,17 +218,36 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(18, 155);
+            this.label4.Location = new System.Drawing.Point(457, 109);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(102, 20);
+            this.label4.Size = new System.Drawing.Size(56, 20);
             this.label4.TabIndex = 22;
-            this.label4.Text = "Width (2-10)";
+            this.label4.Text = "Time: ";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 10;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(519, 109);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(45, 20);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "0,0 s";
             // 
             // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(612, 184);
+            this.ClientSize = new System.Drawing.Size(586, 144);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.btnSearch);
@@ -259,5 +279,7 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.NumericUpDown numUpDownHeight;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label5;
     }
 }
