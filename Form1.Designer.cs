@@ -53,8 +53,10 @@
             this.numUpDownRes = new System.Windows.Forms.NumericUpDown();
             this.labelRes = new System.Windows.Forms.Label();
             this.pctrBox = new System.Windows.Forms.PictureBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.MainTimer = new System.Windows.Forms.Timer(this.components);
+            this.SpeedMeasurementTimer = new System.Windows.Forms.Timer(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.labelPopulationCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -75,6 +77,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.labelPopulationCount);
+            this.splitContainer1.Panel1.Controls.Add(this.label4);
             this.splitContainer1.Panel1.Controls.Add(this.btnSearch);
             this.splitContainer1.Panel1.Controls.Add(this.labelSpeedNum);
             this.splitContainer1.Panel1.Controls.Add(this.labelSpeed);
@@ -100,7 +104,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pctrBox);
-            this.splitContainer1.Size = new System.Drawing.Size(1061, 750);
+            this.splitContainer1.Size = new System.Drawing.Size(1062, 753);
             this.splitContainer1.SplitterDistance = 100;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -109,9 +113,9 @@
             this.btnSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnSearch.AutoSize = true;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnSearch.Location = new System.Drawing.Point(890, 53);
+            this.btnSearch.Location = new System.Drawing.Point(890, 17);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(144, 30);
+            this.btnSearch.Size = new System.Drawing.Size(158, 30);
             this.btnSearch.TabIndex = 21;
             this.btnSearch.Text = "Structure search";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -122,7 +126,7 @@
             this.labelSpeedNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSpeedNum.AutoSize = true;
             this.labelSpeedNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSpeedNum.Location = new System.Drawing.Point(693, 58);
+            this.labelSpeedNum.Location = new System.Drawing.Point(693, 68);
             this.labelSpeedNum.Name = "labelSpeedNum";
             this.labelSpeedNum.Size = new System.Drawing.Size(18, 20);
             this.labelSpeedNum.TabIndex = 20;
@@ -133,7 +137,7 @@
             this.labelSpeed.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSpeed.AutoSize = true;
             this.labelSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSpeed.Location = new System.Drawing.Point(568, 58);
+            this.labelSpeed.Location = new System.Drawing.Point(568, 68);
             this.labelSpeed.Name = "labelSpeed";
             this.labelSpeed.Size = new System.Drawing.Size(119, 20);
             this.labelSpeed.TabIndex = 19;
@@ -144,9 +148,9 @@
             this.btnApply.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnApply.AutoSize = true;
             this.btnApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnApply.Location = new System.Drawing.Point(890, 17);
+            this.btnApply.Location = new System.Drawing.Point(401, 53);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(144, 30);
+            this.btnApply.Size = new System.Drawing.Size(161, 30);
             this.btnApply.TabIndex = 18;
             this.btnApply.Text = "Apply settings";
             this.btnApply.UseVisualStyleBackColor = true;
@@ -157,7 +161,7 @@
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.button1.AutoSize = true;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(398, 17);
+            this.button1.Location = new System.Drawing.Point(401, 17);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(161, 30);
             this.button1.TabIndex = 17;
@@ -239,7 +243,7 @@
             this.labelGenCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelGenCount.AutoSize = true;
             this.labelGenCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelGenCount.Location = new System.Drawing.Point(670, 22);
+            this.labelGenCount.Location = new System.Drawing.Point(670, 7);
             this.labelGenCount.Name = "labelGenCount";
             this.labelGenCount.Size = new System.Drawing.Size(18, 20);
             this.labelGenCount.TabIndex = 10;
@@ -250,7 +254,7 @@
             this.labelGen.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelGen.AutoSize = true;
             this.labelGen.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelGen.Location = new System.Drawing.Point(568, 22);
+            this.labelGen.Location = new System.Drawing.Point(568, 7);
             this.labelGen.Name = "labelGen";
             this.labelGen.Size = new System.Drawing.Size(96, 20);
             this.labelGen.TabIndex = 9;
@@ -261,7 +265,7 @@
             this.btnClear.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnClear.AutoSize = true;
             this.btnClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnClear.Location = new System.Drawing.Point(317, 53);
+            this.btnClear.Location = new System.Drawing.Point(317, 52);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 30);
             this.btnClear.TabIndex = 8;
@@ -288,7 +292,7 @@
             this.btnStop.AutoSize = true;
             this.btnStop.Enabled = false;
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnStop.Location = new System.Drawing.Point(236, 53);
+            this.btnStop.Location = new System.Drawing.Point(236, 52);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 30);
             this.btnStop.TabIndex = 6;
@@ -384,31 +388,54 @@
             this.pctrBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pctrBox.Location = new System.Drawing.Point(0, 0);
             this.pctrBox.Name = "pctrBox";
-            this.pctrBox.Size = new System.Drawing.Size(1057, 642);
+            this.pctrBox.Size = new System.Drawing.Size(1058, 645);
             this.pctrBox.TabIndex = 0;
             this.pctrBox.TabStop = false;
             this.pctrBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pctrBox_MouseClick);
             this.pctrBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pctrBox_MouseClick);
             // 
-            // timer1
+            // MainTimer
             // 
-            this.timer1.Interval = 50;
-            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
+            this.MainTimer.Interval = 50;
+            this.MainTimer.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // timer2
+            // SpeedMeasurementTimer
             // 
-            this.timer2.Interval = 1000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            this.SpeedMeasurementTimer.Interval = 1000;
+            this.SpeedMeasurementTimer.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(568, 38);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(92, 20);
+            this.label4.TabIndex = 23;
+            this.label4.Text = "Population:";
+            // 
+            // labelPopulationCount
+            // 
+            this.labelPopulationCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelPopulationCount.AutoSize = true;
+            this.labelPopulationCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPopulationCount.Location = new System.Drawing.Point(666, 38);
+            this.labelPopulationCount.Name = "labelPopulationCount";
+            this.labelPopulationCount.Size = new System.Drawing.Size(18, 20);
+            this.labelPopulationCount.TabIndex = 24;
+            this.labelPopulationCount.Text = "0";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1061, 750);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1062, 753);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1050, 600);
+            this.MinimumSize = new System.Drawing.Size(1080, 500);
             this.Name = "Form1";
             this.Text = "Game of Life";
             this.ResizeEnd += new System.EventHandler(this.Form1_Resize);
@@ -436,7 +463,7 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer MainTimer;
         private System.Windows.Forms.Label labelGenCount;
         private System.Windows.Forms.Label labelGen;
         private System.Windows.Forms.ComboBox comboBoxTimer;
@@ -449,8 +476,10 @@
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Label labelSpeedNum;
         private System.Windows.Forms.Label labelSpeed;
-        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Timer SpeedMeasurementTimer;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Label labelPopulationCount;
+        private System.Windows.Forms.Label label4;
     }
 }
 

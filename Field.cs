@@ -21,9 +21,14 @@ namespace Game_Of_Life
         public int[] S = new int[2] { 2, 3 };
 
         /// <summary>
-        /// Номер текущего поколения.
+        /// Номер поколения
         /// </summary>
         public int genCount = 0;
+
+        /// <summary>
+        /// Количество живых клеток
+        /// </summary>
+        public int populationCount = 0;
 
         /// <summary>
         /// Цвет фона.
@@ -35,9 +40,6 @@ namespace Game_Of_Life
         /// </summary>
         public readonly Brush foregroundColor = Brushes.White;
 
-        /// <summary>
-        /// Поле.
-        /// </summary>
         public bool[,] field;
 
         public int rows, cols;
@@ -59,22 +61,12 @@ namespace Game_Of_Life
             field = new bool[cols, rows];
         }
 
-        /*public Field(bool[,] field)
-        {
-            this.field = field;
-            if (field != null)
-            {
-                this.cols = field;
-                this.rows = field.Length;
-            }
-        }*/
-
         /// <summary>
         /// Генерация нового поколения
         /// </summary>
-        public void NextGeneration()
+        public Field NextGeneration()
         {
-            bool[,] newField = new bool[cols, rows];
+            var newField = new Field(cols, rows);
 
             for (int i = 0; i < cols; i++)
             {
@@ -83,20 +75,42 @@ namespace Game_Of_Life
                     int neighboursCount = CountNeighbours(i, j);
 
                     if (!field[i, j] && B.Contains(neighboursCount))
-                        newField[i, j] = true;
+                    {
+                        newField.field[i, j] = true;
+                    }
                     else if (field[i, j] && !S.Contains(neighboursCount))
-                        newField[i, j] = false;
+                        newField.field[i, j] = false;
                     else
-                        newField[i, j] = field[i, j];
+                        newField.field[i, j] = field[i, j];
+
+                    newField.populationCount += Convert.ToInt32(newField.field[i, j]);
                 }
             }
 
-            field = newField;
-            genCount++;
+            newField.genCount = ++genCount;
+            return newField;
+        }
+
+        public void AddCell(int x, int y)
+        {
+            if (field[x, y])
+                return;
+
+            populationCount++;
+            field[x, y] = true;
+        }
+
+        public void RemoveCell(int x, int y)
+        {
+            if (!field[x, y])
+                return;
+
+            populationCount--;
+            field[x, y] = false;
         }
 
         /// <summary>
-        /// Подсчет соседей клетки
+        /// Количество соседей клетки.
         /// </summary>
         private int CountNeighbours(int x, int y)
         {
@@ -119,6 +133,7 @@ namespace Game_Of_Life
         public void Clear()
         {
             genCount = 0;
+            populationCount = 0;
 
             for (int i = 0; i < cols; i++)
             {
@@ -129,13 +144,15 @@ namespace Game_Of_Life
             }
         }
 
-        public void CreateRandom(int density)
+        public void RandomCreate(int density)
         {
+            Clear();
             for (int i = 0; i < cols; i++)
             {
                 for (int j = 0; j < rows; j++)
                 {
-                    field[i, j] = rnd.Next(density) == 0;
+                    if (rnd.Next(density) == 0)
+                        AddCell(i, j);
                 }
             }
             genCount = 0;
@@ -169,23 +186,7 @@ namespace Game_Of_Life
 
         public static bool operator ==(Field f1, Field f2)
         {
-            if (f1.cols != f2.cols || f1.rows != f2.rows)
-                return false;
-
-            int c1 = 0, c2 = 0;
-
-            for (int i = 0; i < f1.cols; i++)
-            {
-                for (int j = 0; j < f1.rows; j++)
-                {
-                    c1 += f1.CountNeighbours(i, j);
-                    c2 += f2.CountNeighbours(i, j);
-
-                    /*if (f1.CountNeighbours(i, j) != f2.CountNeighbours(i, j))
-                        return false;*/
-                }
-            }
-            return c1 == c2;
+            return f1.GetSumOfAllNeighbours() == f2.GetSumOfAllNeighbours();
         }
 
         public static bool operator !=(Field f1, Field f2)
@@ -195,15 +196,11 @@ namespace Game_Of_Life
 
         public bool IsEmpty()
         {
-            if (cols == 0 || rows == 0)
-                return true;
-
             for (int i = 0; i < cols; i++)
             {
                 for (int j = 0; j < rows; j++)
                 {
-                    if (field[i, j])
-                        return false;
+                    if (field[i, j]) return false;
                 }
             }
             return true;
@@ -212,7 +209,7 @@ namespace Game_Of_Life
         public Field Clone()
         {
             Field tempF = new Field(cols, rows);
-            tempF.field = this.field;
+            tempF.Insert(this);
             return tempF;
         }
 
@@ -239,6 +236,37 @@ namespace Game_Of_Life
         public override int GetHashCode()
         {
             return -306121345 + EqualityComparer<bool[,]>.Default.GetHashCode(field);
+        }
+
+        /// <summary>
+        /// Вставляет меньшее поле в большее с сохранением размеров большего. Если поля равного размера, переносит состояние второго поля в первое.
+        /// </summary>
+        /// <param name="field"></param>
+        /// <param name="offsetX"></param>
+        /// <param name="offsetY"></param>
+        public void Insert(Field field, bool inCenter = false, int offsetX = 0, int offsetY = 0)
+        {
+            Clear();
+
+            if (inCenter)
+            {
+                offsetX = cols / 2 - field.cols / 2;
+                offsetY = rows / 2 - field.rows / 2;
+            }
+
+            if (cols < field.cols || rows < field.rows)
+                throw new ArgumentException("Inserted field is larger than original");
+
+            if (field.cols + offsetX > cols || field.rows + offsetY > rows || offsetX < 0 || offsetY < 0)
+                throw new ArgumentException("Offset leads out of the field");
+
+            for (int i = 0; i < field.cols; i++)
+            {
+                for (int j = 0; j < field.rows; j++)
+                {
+                    this.field[i + offsetX, j + offsetY] = field.field[i, j];
+                }
+            }
         }
     }
 }

@@ -7,9 +7,8 @@ namespace Game_Of_Life
 {
     public partial class Form1 : Form
     {
-        private Field field;
-        private Graphics g;
-        private readonly Random rnd = new Random();
+        public Field field;
+        public Graphics g;
 
         /// <summary>
         /// Стандартное значение интервала таймера в миллисекундах.
@@ -34,8 +33,7 @@ namespace Game_Of_Life
             ApplySettings();
 
             field = new Field(pctrBox.Width / res, pctrBox.Height / res);
-
-            timer1.Interval = defaultTimerInterval;
+            MainTimer.Interval = defaultTimerInterval;
             comboBoxTimer.Text = defaultTimerInterval.ToString();
 
             pctrBox.Image = new Bitmap(Width, Height);
@@ -47,10 +45,10 @@ namespace Game_Of_Life
         /// <summary>
         /// Запуск таймера
         /// </summary>
-        private void StartGame()
+        protected void StartGame()
         {
-            timer1.Start();
-            timer2.Start();
+            MainTimer.Start();
+            SpeedMeasurementTimer.Start();
 
             btnApply.Enabled = false;
             numUpDownRes.Enabled = false;
@@ -65,10 +63,10 @@ namespace Game_Of_Life
         /// <summary>
         /// Остановка таймера
         /// </summary>
-        private void StopGame()
+        protected void StopGame()
         {
-            timer1.Stop();
-            timer2.Stop();
+            MainTimer.Stop();
+            SpeedMeasurementTimer.Stop();
 
             btnApply.Enabled = true;
             numUpDownRes.Enabled = true;
@@ -84,9 +82,11 @@ namespace Game_Of_Life
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            field.NextGeneration();
+            field = field.NextGeneration();
+            labelPopulationCount.Text = field.populationCount.ToString();
             genPerSecond++;
             labelGenCount.Text = field.genCount.ToString();
+
             field.Draw(res, ref g, ref pctrBox);
         }
 
@@ -95,80 +95,97 @@ namespace Game_Of_Life
             StartGame();
         }
 
+        private void BtnStop_Click(object sender, EventArgs e)
+        {
+            StopGame();
+        }
+
         private void btnClear_Click(object sender, EventArgs e)
         {
             field.Clear();
+            labelPopulationCount.Text = field.populationCount.ToString();
             labelGenCount.Text = field.genCount.ToString();
+
             field.Draw(res, ref g, ref pctrBox);
             StopGame();
         }
 
         private void BtnNext_Click(object sender, EventArgs e)
         {
-            field.NextGeneration();
-            field.Draw(res, ref g, ref pctrBox);
+            if (MainTimer.Enabled)
+                return;
+
+            field = field.NextGeneration();
+            labelPopulationCount.Text = field.populationCount.ToString();
             labelGenCount.Text = field.genCount.ToString();
+
+            field.Draw(res, ref g, ref pctrBox);
         }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            if (!timer1.Enabled)
-            {
-                pctrBox.Image = new Bitmap(Width, Height);
-                g = Graphics.FromImage(pctrBox.Image);
-                field = new Field(pctrBox.Width / res, pctrBox.Height / res);
-                field.Draw(res, ref g, ref pctrBox);
-            }
+            if (MainTimer.Enabled)
+                return;
+
+            pctrBox.Image = new Bitmap(Width, Height);
+            g = Graphics.FromImage(pctrBox.Image);
+            field = new Field(pctrBox.Width / res, pctrBox.Height / res);
+
+            field.Draw(res, ref g, ref pctrBox);
         }
 
         private void ComboBoxTimer_TextChanged(object sender, EventArgs e)
         {
-            if (!int.TryParse(comboBoxTimer.Text, out int interval) || comboBoxTimer.Text[0] == '0' ||
-                comboBoxTimer.Text.Contains(" ") || comboBoxTimer.Text == "" ||
-                int.Parse(comboBoxTimer.Text) <= 0)
-            {
-                timer1.Interval = defaultTimerInterval;
-                comboBoxTimer.Text = defaultTimerInterval.ToString();
-                return;
-            }
+            if (int.TryParse(comboBoxTimer.Text, out int interval) && interval > 0) // корректный интервал таймера
+                MainTimer.Interval = interval;
             else
-                timer1.Interval = interval;
+            {
+                MainTimer.Interval = defaultTimerInterval;
+                comboBoxTimer.Text = defaultTimerInterval.ToString();
+            }
         }
 
         private void BtnRandom_Click(object sender, EventArgs e)
         {
-            field.CreateRandom(density);
-            field.Draw(res, ref g, ref pctrBox);
-            labelGenCount.Text = field.genCount.ToString();
-        }
-
-        private void BtnStop_Click(object sender, EventArgs e)
-        {
             StopGame();
+            field.RandomCreate(density);
+            labelPopulationCount.Text = field.populationCount.ToString();
+            labelGenCount.Text = field.genCount.ToString();
+
+            field.Draw(res, ref g, ref pctrBox);
         }
 
         private void pctrBox_MouseClick(object sender, MouseEventArgs e)
         {
+            bool changed = false;
             int i = e.Location.X / res;
             int j = e.Location.Y / res;
-            if (e.Button == MouseButtons.Left)
+            if (!ValidateMousePosition(i, j))
+                return;
+
+            if (e.Button == MouseButtons.Left && !field.field[i, j])
             {
-                if (ValidateMousePosition(i, j))
-                    field.field[i, j] = true;
+                field.AddCell(i, j);
+                changed = true;
             }
-            else if (e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right && field.field[i, j])
             {
-                if (ValidateMousePosition(i, j))
-                    field.field[i, j] = false;
+                field.RemoveCell(i, j);
+                changed = true;
             }
 
-            if (!timer1.Enabled)
-
+            if (!MainTimer.Enabled && changed)
+            {
+                labelPopulationCount.Text = field.populationCount.ToString();
                 field.Draw(res, ref g, ref pctrBox);
+            }
         }
 
         private void BtnApply_Click(object sender, EventArgs e)
         {
+            if (MainTimer.Enabled)
+                return;
+
             ApplySettings();
             field.Draw(res, ref g, ref pctrBox);
         }
@@ -181,6 +198,7 @@ namespace Game_Of_Life
             res = (int)numUpDownRes.Value;
             density = (int)numUpDownDensity.Value;
             field = new Field(pctrBox.Width / res, pctrBox.Height / res, B, S);
+            labelGenCount.Text = field.genCount.ToString();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)

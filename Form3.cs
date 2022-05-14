@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Game_Of_Life
@@ -14,29 +9,21 @@ namespace Game_Of_Life
     {
         private Field field;
         private Graphics g;
-        private int res = 50;
-        private Field[] favoriteFields;
+        private readonly int res = 30;
+        private readonly List<Field> favoriteFields;
 
         public DemonstrationForm(List<Field> favoriteFields)
         {
             InitializeComponent();
-            numUpDown.Maximum = favoriteFields.Count - 1;
-            this.favoriteFields = favoriteFields.ToArray();
+            numUpDown.Maximum = favoriteFields.Count;
+            numUpDown.Minimum = 1;
+            buttonStop.Enabled = false;
+            this.favoriteFields = favoriteFields;
 
             pictureBox1.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pictureBox1.Image);
             field = new Field(pictureBox1.Width / res, pictureBox1.Height / res);
-
-            field = this.favoriteFields[0];
-
-            /*for (int i = 0; i < Math.Min(field.cols, favoriteFields[0].cols); i++)
-            {
-                for (int j = 0; j < Math.Min(field.rows, favoriteFields[0].rows); j++)
-                {
-                    field.field[i, j] = favoriteFields[0].field[i, j];
-                }
-            }*/
-
+            field.Insert(favoriteFields[0], inCenter: true);
             field.Draw(res, ref g, ref pictureBox1);
 
             label.Text = $"Found {favoriteFields.Count} figures";
@@ -44,16 +31,62 @@ namespace Game_Of_Life
 
         private void numUpDown_ValueChanged(object sender, EventArgs e)
         {
-            field = favoriteFields[((int)numUpDown.Value)];
+            StopTimer();
+            field.Insert(favoriteFields[(int)numUpDown.Value - 1], inCenter: true);
+            field.Draw(res, ref g, ref pictureBox1);
+        }
 
-            /*for (int i = 0; i < Math.Min(field.cols, favoriteFields[((int)numUpDown.Value)].cols); i++)
-            {
-                for (int j = 0; j < Math.Min(field.rows, favoriteFields[((int)numUpDown.Value)].rows); j++)
-                {
-                    field.field[i, j] = favoriteFields[((int)numUpDown.Value)].field[i, j];
-                }
-            }*/
+        private void DemonstrationForm_ResizeEnd(object sender, EventArgs e)
+        {
+            pictureBox1.Image = new Bitmap(Width, Height);
+            g = Graphics.FromImage(pictureBox1.Image);
+            field = new Field(pictureBox1.Width / res, pictureBox1.Height / res);
+            field.Insert(favoriteFields[(int)numUpDown.Value - 1], inCenter: true);
+            field.Draw(res, ref g, ref pictureBox1);
+        }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            field = field.NextGeneration();
+            field.Draw(res, ref g, ref pictureBox1);
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            StartTimer();
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        {
+            StopTimer();
+        }
+
+        private void StartTimer()
+        {
+            timer1.Start();
+            buttonStop.Enabled = true;
+            buttonNext.Enabled = false;
+            buttonStart.Enabled = false;
+        }
+
+        private void StopTimer()
+        {
+            timer1.Stop();
+            buttonStop.Enabled = false;
+            buttonNext.Enabled = true;
+            buttonStart.Enabled = true;
+        }
+
+        private void buttonReset_Click(object sender, EventArgs e)
+        {
+            StopTimer();
+            field.Insert(favoriteFields[(int)numUpDown.Value - 1], inCenter: true);
+            field.Draw(res, ref g, ref pictureBox1);
+        }
+
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            field = field.NextGeneration();
             field.Draw(res, ref g, ref pictureBox1);
         }
     }
