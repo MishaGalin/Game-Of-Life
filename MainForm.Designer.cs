@@ -1,6 +1,6 @@
 ﻿namespace Game_Of_Life
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.labelPopulationCount = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.labelSpeedNum = new System.Windows.Forms.Label();
             this.labelSpeed = new System.Windows.Forms.Label();
@@ -55,8 +57,6 @@
             this.pctrBox = new System.Windows.Forms.PictureBox();
             this.MainTimer = new System.Windows.Forms.Timer(this.components);
             this.SpeedMeasurementTimer = new System.Windows.Forms.Timer(this.components);
-            this.label4 = new System.Windows.Forms.Label();
-            this.labelPopulationCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -71,6 +71,7 @@
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -107,6 +108,28 @@
             this.splitContainer1.Size = new System.Drawing.Size(1062, 753);
             this.splitContainer1.SplitterDistance = 100;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // labelPopulationCount
+            // 
+            this.labelPopulationCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelPopulationCount.AutoSize = true;
+            this.labelPopulationCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPopulationCount.Location = new System.Drawing.Point(666, 38);
+            this.labelPopulationCount.Name = "labelPopulationCount";
+            this.labelPopulationCount.Size = new System.Drawing.Size(18, 20);
+            this.labelPopulationCount.TabIndex = 24;
+            this.labelPopulationCount.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(568, 38);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(92, 20);
+            this.label4.TabIndex = 23;
+            this.label4.Text = "Population:";
             // 
             // btnSearch
             // 
@@ -404,41 +427,20 @@
             this.SpeedMeasurementTimer.Interval = 1000;
             this.SpeedMeasurementTimer.Tick += new System.EventHandler(this.timer2_Tick);
             // 
-            // label4
+            // MainForm
             // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(568, 38);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(92, 20);
-            this.label4.TabIndex = 23;
-            this.label4.Text = "Population:";
-            // 
-            // labelPopulationCount
-            // 
-            this.labelPopulationCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelPopulationCount.AutoSize = true;
-            this.labelPopulationCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelPopulationCount.Location = new System.Drawing.Point(666, 38);
-            this.labelPopulationCount.Name = "labelPopulationCount";
-            this.labelPopulationCount.Size = new System.Drawing.Size(18, 20);
-            this.labelPopulationCount.TabIndex = 24;
-            this.labelPopulationCount.Text = "0";
-            // 
-            // Form1
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1062, 753);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1080, 500);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Game of Life";
-            this.ResizeEnd += new System.EventHandler(this.Form1_Resize);
+            this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_Resize);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
