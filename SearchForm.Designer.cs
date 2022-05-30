@@ -61,6 +61,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.labelRes);
             this.groupBox1.Controls.Add(this.numUpDownWidth);
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(551, 87);
@@ -72,7 +73,7 @@
             // 
             this.numUpDownHeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.numUpDownHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.numUpDownHeight.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.numUpDownHeight.Location = new System.Drawing.Point(120, 51);
             this.numUpDownHeight.Maximum = new decimal(new int[] {
             6,
@@ -97,7 +98,7 @@
             // 
             this.textBoxS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxS.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxS.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.textBoxS.Location = new System.Drawing.Point(260, 50);
             this.textBoxS.Name = "textBoxS";
             this.textBoxS.Size = new System.Drawing.Size(87, 27);
@@ -108,7 +109,7 @@
             // 
             this.textBoxB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxB.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.textBoxB.Location = new System.Drawing.Point(260, 20);
             this.textBoxB.Name = "textBoxB";
             this.textBoxB.Size = new System.Drawing.Size(87, 27);
@@ -147,10 +148,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.label1.Location = new System.Drawing.Point(6, 54);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 20);
+            this.label1.Size = new System.Drawing.Size(90, 20);
             this.label1.TabIndex = 6;
             this.label1.Text = "Height (3-6)";
             // 
@@ -160,10 +161,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelRes.AutoSize = true;
-            this.labelRes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelRes.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.labelRes.Location = new System.Drawing.Point(6, 23);
             this.labelRes.Name = "labelRes";
-            this.labelRes.Size = new System.Drawing.Size(93, 20);
+            this.labelRes.Size = new System.Drawing.Size(85, 20);
             this.labelRes.TabIndex = 5;
             this.labelRes.Text = "Width (3-6)";
             // 
@@ -171,7 +172,7 @@
             // 
             this.numUpDownWidth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.numUpDownWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.numUpDownWidth.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.numUpDownWidth.Location = new System.Drawing.Point(120, 18);
             this.numUpDownWidth.Maximum = new decimal(new int[] {
             6,
@@ -195,10 +196,10 @@
             // btnSearch
             // 
             this.btnSearch.AutoSize = true;
-            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSearch.Location = new System.Drawing.Point(12, 104);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(144, 31);
+            this.btnSearch.Size = new System.Drawing.Size(144, 33);
             this.btnSearch.TabIndex = 19;
             this.btnSearch.Text = "Start searching";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -217,10 +218,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.label4.Location = new System.Drawing.Point(457, 109);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 20);
+            this.label4.Size = new System.Drawing.Size(49, 20);
             this.label4.TabIndex = 22;
             this.label4.Text = "Time: ";
             // 
@@ -234,10 +235,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(507, 109);
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.label5.Location = new System.Drawing.Point(501, 109);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(45, 20);
+            this.label5.Size = new System.Drawing.Size(38, 20);
             this.label5.TabIndex = 23;
             this.label5.Text = "0,0 s";
             // 
@@ -251,8 +252,10 @@
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "SearchForm";
             this.Text = "Structure search";
             this.groupBox1.ResumeLayout(false);

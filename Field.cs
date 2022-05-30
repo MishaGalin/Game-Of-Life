@@ -7,6 +7,11 @@ namespace Game_Of_Life
 {
     public class Field
     {
+        /// <summary>
+        /// Правило рождения новой клетки.
+        /// </summary>
+        public List<int> B;
+
         public bool[,] field;
 
         /// <summary>
@@ -22,11 +27,6 @@ namespace Game_Of_Life
         public int rows, cols;
 
         /// <summary>
-        /// Правило рождения новой клетки.
-        /// </summary>
-        public List<int> B;
-
-        /// <summary>
         /// Правило выживания клеток.
         /// </summary>
         public List<int> S;
@@ -39,16 +39,17 @@ namespace Game_Of_Life
         /// <summary>
         /// Цвет клеток.
         /// </summary>
-        private readonly Brush foregroundColor = Brushes.White;
+        private readonly Brush cellColor = Brushes.White;
 
         /// <summary>
         /// Цвет сетки.
         /// </summary>
         private readonly Pen gridColor = Pens.DarkSlateGray;
 
+        private readonly bool[,] nextGenField;
         private readonly Random rnd = new Random();
 
-        private readonly bool[,] nextGenField;
+        public string type = "";
 
         public Field(int cols, int rows, List<int> B, List<int> S)
         {
@@ -104,7 +105,7 @@ namespace Game_Of_Life
             // Клетки
             for (int i = 0; i < cols; i++)
                 for (int j = 0; j < rows; j++)
-                    if (field[i, j]) g.FillRectangle(foregroundColor, (i * res) + 1, (j * res) + 1, res - 1, res - 1);
+                    if (field[i, j]) g.FillRectangle(cellColor, i * res, j * res, res, res);
 
             // Сетка
             for (int i = 0; i <= cols; i++)
@@ -119,7 +120,6 @@ namespace Game_Of_Life
         /// <summary>
         /// Возвращает сумму соседей каждой живой клетки.
         /// </summary>
-        /// <returns></returns>
         public int GetSumOfAllNeighbours()
         {
             int sum = 0;
@@ -128,6 +128,38 @@ namespace Game_Of_Life
                     if (field[i, j]) sum += CountNeighbours(i, j);
 
             return sum;
+        }
+
+        /// <summary>
+        /// Возвращает новое поле, оставляя от исходного только наименьшую часть с клетками.
+        /// </summary>
+        /// <returns></returns>
+        public Field Crop()
+        {
+            int leftmostX = cols, rightmostX = 0, topmostY = rows, lowestY = 0;
+            for (int i = 0; i < cols; i++)
+                for (int j = 0; j < rows; j++)
+                {
+                    if (field[i, j])
+                    {
+                        if (leftmostX > i) leftmostX = i;
+                        if (rightmostX < i) rightmostX = i;
+
+                        if (topmostY > j) topmostY = j;
+                        if (lowestY < j) lowestY = j;
+                    }
+                }
+
+            Field tempField = new Field(rightmostX - leftmostX + 1, lowestY - topmostY + 1, B, S);
+            tempField.type = type;
+
+            for (int i = 0; i < tempField.cols; i++)
+                for (int j = 0; j < tempField.rows; j++)
+                {
+                    tempField.field[i, j] = field[leftmostX + i, topmostY + j];
+                }
+
+            return tempField;
         }
 
         /// <summary>
@@ -143,14 +175,8 @@ namespace Game_Of_Life
                 offsetY = (rows / 2) - (field.rows / 2) + 1;
             }
 
-            if (cols < field.cols || rows < field.rows)
-                throw new ArgumentException("Inserted field is larger than original");
-
-            if (field.cols + offsetX > cols || field.rows + offsetY > rows || offsetX < 0 || offsetY < 0)
-                throw new ArgumentException("Offset leads out of the original field");
-
-            for (int i = 0; i < field.cols; i++)
-                for (int j = 0; j < field.rows; j++)
+            for (int i = 0; i < Math.Min(field.cols, cols + offsetX); i++)
+                for (int j = 0; j < Math.Min(field.rows, rows + offsetY); j++)
                     this.field[i + offsetX, j + offsetY] = field.field[i, j];
         }
 
@@ -192,11 +218,14 @@ namespace Game_Of_Life
 
         public void RandomCreate(int density)
         {
-            Clear();
+            //Clear();
 
             for (int i = 0; i < cols; i++)
                 for (int j = 0; j < rows; j++)
+                {
                     if (rnd.Next(density) == 0) AddCell(i, j);
+                    else RemoveCell(i, j);
+                }
         }
 
         public void RemoveCell(int x, int y)
@@ -227,6 +256,18 @@ namespace Game_Of_Life
                 }
             }
             return count;
+        }
+
+        public bool Equals(Field anotherField)
+        {
+            if (rows != anotherField.rows || cols != anotherField.cols)
+                return false;
+
+            for (int i = 0; i < cols; i++)
+                for (int j = 0; j < rows; j++)
+                    if (field[i, j] != anotherField.field[i, j]) return false;
+
+            return true;
         }
     }
 }

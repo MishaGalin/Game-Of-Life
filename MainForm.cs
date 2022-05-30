@@ -56,8 +56,6 @@ namespace Game_Of_Life
             btnNext.Enabled = false;
             btnStart.Enabled = false;
             btnStop.Enabled = true;
-
-            FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
         /// <summary>
@@ -75,8 +73,8 @@ namespace Game_Of_Life
             btnStart.Enabled = true;
             btnStop.Enabled = false;
 
+            genPerSecond = 0;
             labelSpeedNum.Text = "0";
-            FormBorderStyle = FormBorderStyle.Sizable;
         }
 
         private void ApplySettings()
@@ -99,7 +97,7 @@ namespace Game_Of_Life
             field.Draw(res, ref g, ref pctrBox);
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
+        private void BtnClear_Click(object sender, EventArgs e)
         {
             StopGame();
             field.Clear();
@@ -131,13 +129,13 @@ namespace Game_Of_Life
             field.Draw(res, ref g, ref pctrBox);
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void BtnSearch_Click(object sender, EventArgs e)
         {
             SearchForm form2 = new SearchForm();
             form2.Show();
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void BtnStart_Click(object sender, EventArgs e)
         { StartGame(); }
 
         private void BtnStop_Click(object sender, EventArgs e)
@@ -147,10 +145,7 @@ namespace Game_Of_Life
         {
             if (int.TryParse(comboBoxTimer.Text, out int interval) && interval > 0) // корректный интервал таймера
                 MainTimer.Interval = interval;
-            else
-            {
-                SetDefaultInterval();
-            }
+            else SetDefaultInterval();
         }
 
         private void SetDefaultInterval()
@@ -163,22 +158,34 @@ namespace Game_Of_Life
         {
             widthWhenEndResize = Size.Width;
             heightWhenEndResize = Size.Height;
-            if (MainTimer.Enabled || (widthWhenBeginResize == widthWhenEndResize && heightWhenBeginResize == heightWhenEndResize))
+            if (widthWhenBeginResize == widthWhenEndResize && heightWhenBeginResize == heightWhenEndResize)
                 return;
 
             pctrBox.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pctrBox.Image);
 
-            ApplySettings();
+            List<int> B = textBoxB.Text.Split(' ').Select(int.Parse).ToList();
+            List<int> S = textBoxS.Text.Split(' ').Select(int.Parse).ToList();
+            if (field.IsEmpty())
+                field = new Field(pctrBox.Width / res, pctrBox.Height / res, B, S);
+            else
+            {
+                int tempGenCount = field.genCount;
+                Field tempField = field.Clone();
+                field = new Field(pctrBox.Width / res, pctrBox.Height / res, B, S);
+                field.Insert(tempField);
+                field.genCount = tempGenCount;
+            }
+
             field.Draw(res, ref g, ref pctrBox);
         }
 
-        private void pctrBox_MouseClick(object sender, MouseEventArgs e)
+        private void PctrBox_MouseClick(object sender, MouseEventArgs e)
         {
             bool fieldChanged = false;
             int i = e.Location.X / res;
             int j = e.Location.Y / res;
-            if (!ValidateMousePosition(i, j))
+            if (!ValidateMousePos(i, j))
                 return;
 
             switch (e.Button)
@@ -217,13 +224,13 @@ namespace Game_Of_Life
             field.Draw(res, ref g, ref pctrBox);
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
+        private void SpeedMeasurementTimer_Tick(object sender, EventArgs e)
         {
             labelSpeedNum.Text = genPerSecond.ToString();
             genPerSecond = 0;
         }
 
-        private bool ValidateMousePosition(int x, int y)
+        private bool ValidateMousePos(int x, int y)
         {
             return x >= 0 && y >= 0 && x < field.cols && y < field.rows;
         }

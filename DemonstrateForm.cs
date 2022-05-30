@@ -9,8 +9,9 @@ namespace Game_Of_Life
     {
         private Field field;
         private Graphics g;
-        private const int res = 30;
+        private const int res = 20;
         private readonly List<Field> favoriteFields;
+        private int currentField;
 
         public DemonstrateForm(List<Field> favoriteFields)
         {
@@ -19,6 +20,7 @@ namespace Game_Of_Life
             numUpDown.Minimum = 1;
             buttonStop.Enabled = false;
             this.favoriteFields = favoriteFields;
+            currentField = 0;
 
             pictureBox1.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pictureBox1.Image);
@@ -27,25 +29,25 @@ namespace Game_Of_Life
             field.Draw(res, ref g, ref pictureBox1);
 
             label.Text = $"Found {favoriteFields.Count} figures";
-            label1.Text = $"{(float)(favoriteFields.Count / Math.Pow(2, favoriteFields[0].rows * favoriteFields[0].cols / 4))} %";
+            labelType.Text = "Type: " + favoriteFields[0].type;
         }
 
         private void numUpDown_ValueChanged(object sender, EventArgs e)
         {
             StopTimer();
-            field.Insert(favoriteFields[Decimal.ToInt32(numUpDown.Value) - 1], inCenter: true);
+            currentField = decimal.ToInt32(numUpDown.Value) - 1;
+            field.Insert(favoriteFields[currentField], inCenter: true);
             field.Draw(res, ref g, ref pictureBox1);
+
+            labelType.Text = "Type: " + favoriteFields[currentField].type;
         }
 
         private void DemonstrationForm_ResizeEnd(object sender, EventArgs e)
         {
-            if (timer1.Enabled)
-                return;
-
             pictureBox1.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pictureBox1.Image);
             field = new Field(pictureBox1.Width / res, pictureBox1.Height / res, favoriteFields[0].B, favoriteFields[0].S);
-            field.Insert(favoriteFields[Decimal.ToInt32(numUpDown.Value) - 1], inCenter: true);
+            field.Insert(favoriteFields[currentField], inCenter: true);
             field.Draw(res, ref g, ref pictureBox1);
         }
 
@@ -67,8 +69,6 @@ namespace Game_Of_Life
             buttonStop.Enabled = true;
             buttonNext.Enabled = false;
             buttonStart.Enabled = false;
-
-            FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
         private void StopTimer()
@@ -77,14 +77,12 @@ namespace Game_Of_Life
             buttonStop.Enabled = false;
             buttonNext.Enabled = true;
             buttonStart.Enabled = true;
-
-            FormBorderStyle = FormBorderStyle.Sizable;
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
             StopTimer();
-            field.Insert(favoriteFields[Decimal.ToInt32(numUpDown.Value) - 1], inCenter: true);
+            field.Insert(favoriteFields[currentField], inCenter: true);
             field.Draw(res, ref g, ref pictureBox1);
         }
 

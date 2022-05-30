@@ -10,7 +10,6 @@ namespace Game_Of_Life
     public partial class SearchForm : Form
     {
         private decimal time = 0.0M;
-        private const int LimitOnSearchSteps = 5;
 
         public SearchForm()
         {
@@ -32,15 +31,17 @@ namespace Game_Of_Life
         {
             timer1.Start();
             List<Field> favoriteFields = new List<Field>();
+            int staticFieldCount = 0, periodicallyFieldCount = 0;
 
             await Task.Run(() =>
             {
-                Field field = new Field(width * 2, height * 2, b, s);
+                const int LimitOnSearchSteps = 30;
+                Field field = new Field(30, 30, b, s);
                 List<Field> listOfFields = new List<Field>();
                 List<int> checkedFields = new List<int>();
                 ulong numOfCombinations = (ulong)Math.Pow(2, width * height);
 
-                for (ulong i = 1; i < numOfCombinations; i++) // основной цикл с перебором всех вариантов начальных условий
+                for (ulong i = 1; i <= numOfCombinations; i++) // основной цикл с перебором всех вариантов начальных условий
                 {
                     field.Clear();
                     listOfFields.Clear();
@@ -54,7 +55,7 @@ namespace Game_Of_Life
                         for (int y = 0; y < height; y++)
                         {
                             bool currentCell = Math.Abs(char.GetNumericValue(binaryString[y + (x * height)]) - 1.0) < 0.001; // берем из строки один элемент
-                            field.field[x + (width / 2), y + (height / 2)] = currentCell;
+                            field.field[x + (field.cols / 2), y + (field.rows / 2)] = currentCell;
                         }
                     }
 
@@ -72,8 +73,21 @@ namespace Game_Of_Life
                         {
                             if (fieldFromList == field && !field.IsEmpty())  // сравнение с предыдущими состояниями для выявления фигур
                             {
-                                favoriteFields.Add(fieldFromList.Clone());
-                                checkedFields.Add(fieldFromList.GetSumOfAllNeighbours());
+                                Field prevGenField = field.Clone();
+                                field.NextGeneration();
+                                if (field.Equals(prevGenField))
+                                {
+                                    prevGenField.type = "Static";
+                                    staticFieldCount++;
+                                }
+                                else
+                                {
+                                    prevGenField.type = "Periodically or other";
+                                    periodicallyFieldCount++;
+                                }
+
+                                favoriteFields.Add(prevGenField.Crop());
+                                checkedFields.Add(prevGenField.GetSumOfAllNeighbours());
                                 isFound = true;
                                 break;
                             }
@@ -84,10 +98,10 @@ namespace Game_Of_Life
                     }
 
                     _ = Invoke((Action)(() =>
-                    {
-                        double progress = (double)(i + 1) / numOfCombinations * 100;
-                        progressBar1.Value = (int)progress;
-                    }));
+                      {
+                          float progress = (float)(i + 1) / numOfCombinations * 100;
+                          progressBar1.Value = (int)progress;
+                      }));
                 }
             });
 
@@ -98,6 +112,12 @@ namespace Game_Of_Life
             {
                 DemonstrateForm form3 = new DemonstrateForm(favoriteFields);
                 form3.Show();
+                MessageBox.Show($"{width} by {height} search: \n" +
+                    $"Total fields: {favoriteFields.Count}\n" +
+                    $"Static fields: {staticFieldCount}\n" +
+                    $"Periodically or other fields: {periodicallyFieldCount}\n" +
+                    $"Static fields percent: {(float)staticFieldCount / favoriteFields.Count * 100} %\n" +
+                    $"Periodically or other fields percent: {(float)periodicallyFieldCount / favoriteFields.Count * 100} %\n");
             }
             else _ = MessageBox.Show("Nothing found.");
         }
