@@ -24,20 +24,21 @@ namespace Game_Of_Life
             int width = (int)numUpDownWidth.Value;
             List<int> B = textBoxB.Text.Split(' ').Select(int.Parse).ToList();
             List<int> S = textBoxS.Text.Split(' ').Select(int.Parse).ToList();
-            await Search(width, height, B, S);
+            int rank = (int)numericUpDownRank.Value;
+            await Search(width, height, B, S, rank);
         }
 
-        private async Task Search(int width, int height, List<int> b, List<int> s)
+        private async Task Search(int width, int height, List<int> b, List<int> s, int rank = 1)
         {
             timer1.Start();
-            List<Field> favoriteFields = new List<Field>();
+            List<CellularAutomaton> favoriteFields = new List<CellularAutomaton>();
             int staticFieldCount = 0, periodicallyFieldCount = 0;
 
             await Task.Run(() =>
             {
                 const int LimitOnSearchSteps = 30;
-                Field field = new Field(30, 30, b, s);
-                List<Field> listOfFields = new List<Field>();
+                CellularAutomaton field = new CellularAutomaton(30, 30, b, s, rank);
+                List<CellularAutomaton> listOfFields = new List<CellularAutomaton>();
                 List<int> checkedFields = new List<int>();
                 ulong numOfCombinations = (ulong)Math.Pow(2, width * height);
 
@@ -69,11 +70,11 @@ namespace Game_Of_Life
                         listOfFields.Add(field.Clone());
                         field.NextGeneration();
 
-                        foreach (Field fieldFromList in listOfFields)
+                        foreach (CellularAutomaton fieldFromList in listOfFields)
                         {
                             if (fieldFromList == field && !field.IsEmpty())  // сравнение с предыдущими состояниями для выявления фигур
                             {
-                                Field prevGenField = field.Clone();
+                                CellularAutomaton prevGenField = field.Clone();
                                 field.NextGeneration();
                                 if (field.Equals(prevGenField))
                                 {
@@ -110,9 +111,9 @@ namespace Game_Of_Life
 
             if (favoriteFields.Count > 0)
             {
-                DemonstrateForm form3 = new DemonstrateForm(favoriteFields);
+                DemonstrateForm form3 = new DemonstrateForm(favoriteFields, b, s, rank);
                 form3.Show();
-                MessageBox.Show($"{width} by {height} search: \n" +
+                _ = MessageBox.Show($"{width} by {height} search: \n" +
                     $"Total fields: {favoriteFields.Count}\n" +
                     $"Static fields: {staticFieldCount}\n" +
                     $"Periodically or other fields: {periodicallyFieldCount}\n" +

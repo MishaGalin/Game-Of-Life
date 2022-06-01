@@ -44,16 +44,21 @@
             this.label4 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label5 = new System.Windows.Forms.Label();
+            this.numericUpDownRank = new System.Windows.Forms.NumericUpDown();
+            this.labelRank = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.numericUpDownRank);
             this.groupBox1.Controls.Add(this.numUpDownHeight);
+            this.groupBox1.Controls.Add(this.labelRank);
             this.groupBox1.Controls.Add(this.textBoxS);
             this.groupBox1.Controls.Add(this.textBoxB);
             this.groupBox1.Controls.Add(this.label3);
@@ -242,6 +247,41 @@
             this.label5.TabIndex = 23;
             this.label5.Text = "0,0 s";
             // 
+            // numericUpDownRank
+            // 
+            this.numericUpDownRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.numericUpDownRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownRank.Location = new System.Drawing.Point(415, 21);
+            this.numericUpDownRank.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownRank.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownRank.Name = "numericUpDownRank";
+            this.numericUpDownRank.Size = new System.Drawing.Size(57, 27);
+            this.numericUpDownRank.TabIndex = 28;
+            this.numericUpDownRank.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // labelRank
+            // 
+            this.labelRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelRank.AutoSize = true;
+            this.labelRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRank.Location = new System.Drawing.Point(368, 23);
+            this.labelRank.Name = "labelRank";
+            this.labelRank.Size = new System.Drawing.Size(41, 20);
+            this.labelRank.TabIndex = 27;
+            this.labelRank.Text = "Rank";
+            // 
             // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -262,6 +302,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,5 +324,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown numericUpDownRank;
+        private System.Windows.Forms.Label labelRank;
     }
 }

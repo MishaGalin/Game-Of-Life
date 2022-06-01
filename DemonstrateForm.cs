@@ -7,24 +7,27 @@ namespace Game_Of_Life
 {
     public partial class DemonstrateForm : Form
     {
-        private Field field;
+        private CellularAutomaton field;
         private Graphics g;
         private const int res = 20;
-        private readonly List<Field> favoriteFields;
-        private int currentField;
+        private readonly List<CellularAutomaton> favoriteFields;
+        private int currentField = 0;
+        private readonly List<int> B, S;
+        private readonly int rank;
 
-        public DemonstrateForm(List<Field> favoriteFields)
+        public DemonstrateForm(List<CellularAutomaton> favoriteFields, List<int> B, List<int> S, int rank)
         {
             InitializeComponent();
             numUpDown.Maximum = favoriteFields.Count;
-            numUpDown.Minimum = 1;
             buttonStop.Enabled = false;
             this.favoriteFields = favoriteFields;
-            currentField = 0;
+            this.B = B;
+            this.S = S;
+            this.rank = rank;
 
             pictureBox1.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pictureBox1.Image);
-            field = new Field(pictureBox1.Width / res, pictureBox1.Height / res, favoriteFields[0].B, favoriteFields[0].S);
+            field = new CellularAutomaton(pictureBox1.Width / res, pictureBox1.Height / res, B, S, rank);
             field.Insert(favoriteFields[0], inCenter: true);
             field.Draw(res, ref g, ref pictureBox1);
 
@@ -46,7 +49,7 @@ namespace Game_Of_Life
         {
             pictureBox1.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pictureBox1.Image);
-            field = new Field(pictureBox1.Width / res, pictureBox1.Height / res, favoriteFields[0].B, favoriteFields[0].S);
+            field = new CellularAutomaton(pictureBox1.Width / res, pictureBox1.Height / res, B, S, rank);
             field.Insert(favoriteFields[currentField], inCenter: true);
             field.Draw(res, ref g, ref pictureBox1);
         }

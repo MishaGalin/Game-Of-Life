@@ -57,6 +57,8 @@
             this.pctrBox = new System.Windows.Forms.PictureBox();
             this.MainTimer = new System.Windows.Forms.Timer(this.components);
             this.SpeedMeasurementTimer = new System.Windows.Forms.Timer(this.components);
+            this.labelRank = new System.Windows.Forms.Label();
+            this.numericUpDownRank = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -64,6 +66,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownDensity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownRes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctrBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -78,6 +81,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.numericUpDownRank);
+            this.splitContainer1.Panel1.Controls.Add(this.labelRank);
             this.splitContainer1.Panel1.Controls.Add(this.labelPopulationCount);
             this.splitContainer1.Panel1.Controls.Add(this.label4);
             this.splitContainer1.Panel1.Controls.Add(this.btnSearch);
@@ -116,7 +121,7 @@
             this.labelPopulationCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelPopulationCount.AutoSize = true;
             this.labelPopulationCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPopulationCount.Location = new System.Drawing.Point(666, 38);
+            this.labelPopulationCount.Location = new System.Drawing.Point(679, 38);
             this.labelPopulationCount.Name = "labelPopulationCount";
             this.labelPopulationCount.Size = new System.Drawing.Size(17, 20);
             this.labelPopulationCount.TabIndex = 24;
@@ -151,7 +156,7 @@
             this.labelSpeedNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSpeedNum.AutoSize = true;
             this.labelSpeedNum.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSpeedNum.Location = new System.Drawing.Point(693, 68);
+            this.labelSpeedNum.Location = new System.Drawing.Point(679, 68);
             this.labelSpeedNum.Name = "labelSpeedNum";
             this.labelSpeedNum.Size = new System.Drawing.Size(17, 20);
             this.labelSpeedNum.TabIndex = 20;
@@ -197,7 +202,7 @@
             // textBoxS
             // 
             this.textBoxS.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxS.Location = new System.Drawing.Point(744, 55);
+            this.textBoxS.Location = new System.Drawing.Point(744, 35);
             this.textBoxS.Name = "textBoxS";
             this.textBoxS.Size = new System.Drawing.Size(130, 27);
             this.textBoxS.TabIndex = 16;
@@ -206,7 +211,7 @@
             // textBoxB
             // 
             this.textBoxB.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxB.Location = new System.Drawing.Point(744, 19);
+            this.textBoxB.Location = new System.Drawing.Point(744, 5);
             this.textBoxB.Name = "textBoxB";
             this.textBoxB.Size = new System.Drawing.Size(130, 27);
             this.textBoxB.TabIndex = 15;
@@ -217,7 +222,7 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(728, 58);
+            this.label3.Location = new System.Drawing.Point(728, 38);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 20);
             this.label3.TabIndex = 14;
@@ -228,7 +233,7 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(727, 22);
+            this.label2.Location = new System.Drawing.Point(728, 7);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(18, 20);
             this.label2.TabIndex = 13;
@@ -268,7 +273,7 @@
             this.labelGenCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelGenCount.AutoSize = true;
             this.labelGenCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGenCount.Location = new System.Drawing.Point(670, 7);
+            this.labelGenCount.Location = new System.Drawing.Point(679, 7);
             this.labelGenCount.Name = "labelGenCount";
             this.labelGenCount.Size = new System.Drawing.Size(17, 20);
             this.labelGenCount.TabIndex = 10;
@@ -429,6 +434,41 @@
             this.SpeedMeasurementTimer.Interval = 1000;
             this.SpeedMeasurementTimer.Tick += new System.EventHandler(this.SpeedMeasurementTimer_Tick);
             // 
+            // labelRank
+            // 
+            this.labelRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelRank.AutoSize = true;
+            this.labelRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRank.Location = new System.Drawing.Point(728, 68);
+            this.labelRank.Name = "labelRank";
+            this.labelRank.Size = new System.Drawing.Size(41, 20);
+            this.labelRank.TabIndex = 25;
+            this.labelRank.Text = "Rank";
+            // 
+            // numericUpDownRank
+            // 
+            this.numericUpDownRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.numericUpDownRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownRank.Location = new System.Drawing.Point(775, 66);
+            this.numericUpDownRank.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownRank.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownRank.Name = "numericUpDownRank";
+            this.numericUpDownRank.Size = new System.Drawing.Size(57, 27);
+            this.numericUpDownRank.TabIndex = 26;
+            this.numericUpDownRank.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -452,6 +492,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownDensity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownRes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctrBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -485,6 +526,8 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Label labelPopulationCount;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown numericUpDownRank;
+        private System.Windows.Forms.Label labelRank;
     }
 }
 

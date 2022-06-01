@@ -13,7 +13,7 @@ namespace Game_Of_Life
         /// </summary>
         public int density = 10;
 
-        public Field field;
+        public CellularAutomaton field;
         public Graphics g;
 
         /// <summary>
@@ -29,6 +29,9 @@ namespace Game_Of_Life
         private int genPerSecond = 0;
 
         private int widthWhenBeginResize, heightWhenBeginResize, widthWhenEndResize, heightWhenEndResize;
+
+        private List<int> B, S;
+        private int rank;
 
         public MainForm()
         {
@@ -79,12 +82,13 @@ namespace Game_Of_Life
 
         private void ApplySettings()
         {
-            List<int> B = textBoxB.Text.Split(' ').Select(int.Parse).ToList();
-            List<int> S = textBoxS.Text.Split(' ').Select(int.Parse).ToList();
+            B = textBoxB.Text.Split(' ').Select(int.Parse).ToList();
+            S = textBoxS.Text.Split(' ').Select(int.Parse).ToList();
+            rank = (int)numericUpDownRank.Value;
 
             res = (int)numUpDownRes.Value;
             density = (int)numUpDownDensity.Value;
-            field = new Field(pctrBox.Width / res, pctrBox.Height / res, B, S);
+            field = new CellularAutomaton(pctrBox.Width / res, pctrBox.Height / res, B, S, rank);
             labelGenCount.Text = field.genCount.ToString();
         }
 
@@ -164,15 +168,13 @@ namespace Game_Of_Life
             pctrBox.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pctrBox.Image);
 
-            List<int> B = textBoxB.Text.Split(' ').Select(int.Parse).ToList();
-            List<int> S = textBoxS.Text.Split(' ').Select(int.Parse).ToList();
             if (field.IsEmpty())
-                field = new Field(pctrBox.Width / res, pctrBox.Height / res, B, S);
+                field = new CellularAutomaton(pctrBox.Width / res, pctrBox.Height / res, B, S, rank);
             else
             {
                 int tempGenCount = field.genCount;
-                Field tempField = field.Clone();
-                field = new Field(pctrBox.Width / res, pctrBox.Height / res, B, S);
+                CellularAutomaton tempField = field.Clone();
+                field = new CellularAutomaton(pctrBox.Width / res, pctrBox.Height / res, B, S, rank);
                 field.Insert(tempField);
                 field.genCount = tempGenCount;
             }
@@ -182,12 +184,12 @@ namespace Game_Of_Life
 
         private void PctrBox_MouseClick(object sender, MouseEventArgs e)
         {
-            bool fieldChanged = false;
             int i = e.Location.X / res;
             int j = e.Location.Y / res;
             if (!ValidateMousePos(i, j))
                 return;
 
+            bool fieldChanged = false;
             switch (e.Button)
             {
                 case MouseButtons.Left when !field.field[i, j]:
@@ -198,6 +200,9 @@ namespace Game_Of_Life
                 case MouseButtons.Right when field.field[i, j]:
                     field.RemoveCell(i, j);
                     fieldChanged = true;
+                    break;
+
+                default:
                     break;
             }
 
@@ -218,8 +223,8 @@ namespace Game_Of_Life
         {
             field.NextGeneration();
             labelPopulationCount.Text = field.populationCount.ToString();
-            genPerSecond++;
             labelGenCount.Text = field.genCount.ToString();
+            genPerSecond++;
 
             field.Draw(res, ref g, ref pctrBox);
         }
