@@ -139,6 +139,7 @@
             0,
             0,
             0});
+            this.numericUpDownRank.ValueChanged += new System.EventHandler(this.numericUpDownRank_ValueChanged);
             // 
             // labelRank
             // 
@@ -401,6 +402,7 @@
             0,
             0,
             0});
+            this.numUpDownDensity.ValueChanged += new System.EventHandler(this.numUpDownDensity_ValueChanged);
             // 
             // labelDensity
             // 
@@ -436,6 +438,7 @@
             0,
             0,
             0});
+            this.numUpDownRes.ValueChanged += new System.EventHandler(this.numUpDownRes_ValueChanged);
             // 
             // labelRes
             // 
@@ -457,7 +460,9 @@
             this.pctrBox.TabIndex = 0;
             this.pctrBox.TabStop = false;
             this.pctrBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PctrBox_MouseClick);
+            this.pctrBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pctrBox_MouseDown);
             this.pctrBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PctrBox_MouseClick);
+            this.pctrBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pctrBox_MouseUp);
             // 
             // MainTimer
             // 
