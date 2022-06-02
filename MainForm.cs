@@ -37,12 +37,29 @@ namespace Game_Of_Life
         {
             InitializeComponent();
             SetDefaultInterval();
+            pctrBox.MouseWheel += PctrBox_MouseWheel;
 
             pctrBox.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pctrBox.Image);
 
             ApplySettings();
             field.Draw(res, ref g, ref pctrBox);
+        }
+
+        private void PctrBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0 && res + 1 <= numUpDownRes.Maximum)
+                res++;
+            else if (e.Delta < 0 && res - 1 >= numUpDownRes.Minimum)
+                res--;
+
+            CellularAutomaton tempField = new CellularAutomaton(pctrBox.Width / res, pctrBox.Height / res, B, S, rank);
+            tempField.Insert(field.Crop(), true);
+            field = tempField;
+            numUpDownRes.Value = res;
+
+            if (!MainTimer.Enabled)
+                field.Draw(res, ref g, ref pctrBox);
         }
 
         /// <summary>
@@ -59,6 +76,9 @@ namespace Game_Of_Life
             btnNext.Enabled = false;
             btnStart.Enabled = false;
             btnStop.Enabled = true;
+            textBoxB.Enabled = false;
+            textBoxS.Enabled = false;
+            numericUpDownRank.Enabled = false;
         }
 
         /// <summary>
@@ -74,6 +94,9 @@ namespace Game_Of_Life
             numUpDownDensity.Enabled = true;
             btnNext.Enabled = true;
             btnStart.Enabled = true;
+            textBoxB.Enabled = true;
+            textBoxS.Enabled = true;
+            numericUpDownRank.Enabled = true;
             btnStop.Enabled = false;
 
             genPerSecond = 0;
@@ -85,11 +108,11 @@ namespace Game_Of_Life
             B = textBoxB.Text.Split(' ').Select(int.Parse).ToList();
             S = textBoxS.Text.Split(' ').Select(int.Parse).ToList();
             rank = (int)numericUpDownRank.Value;
-
             res = (int)numUpDownRes.Value;
             density = (int)numUpDownDensity.Value;
+
             field = new CellularAutomaton(pctrBox.Width / res, pctrBox.Height / res, B, S, rank);
-            labelGenCount.Text = field.genCount.ToString();
+            labelGenCount.Text = "0";
         }
 
         private void BtnApply_Click(object sender, EventArgs e)
@@ -97,7 +120,14 @@ namespace Game_Of_Life
             if (MainTimer.Enabled)
                 return;
 
-            ApplySettings();
+            if (field.IsEmpty()) ApplySettings();
+            else
+            {
+                CellularAutomaton tempfield = field.Clone();
+                ApplySettings();
+                field.Insert(tempfield);
+            }
+
             field.Draw(res, ref g, ref pctrBox);
         }
 

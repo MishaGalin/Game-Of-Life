@@ -115,6 +115,9 @@ namespace Game_Of_Life
         /// </summary>
         public CellularAutomaton Crop()
         {
+            if (IsEmpty())
+                return new CellularAutomaton(0, 0, B, S);
+
             int leftmostX = cols, rightmostX = 0, topmostY = rows, lowestY = 0;
 
             // поиск граничных точек
@@ -189,19 +192,24 @@ namespace Game_Of_Life
         /// <summary>
         /// Вставляет меньшее поле в большее с сохранением размеров большего. Если поля равного размера, переносит состояние второго поля в первое.
         /// </summary>
-        public void Insert(CellularAutomaton field, bool inCenter = false, int offsetX = 0, int offsetY = 0)
+        public void Insert(CellularAutomaton anotherfield, bool inCenter = false, int offsetX = 0, int offsetY = 0)
         {
             Clear();
 
             if (inCenter)
             {
-                offsetX = (cols / 2) - (field.cols / 2) + 1;
-                offsetY = (rows / 2) - (field.rows / 2) + 1;
+                offsetX = (cols / 2) - (anotherfield.cols / 2);
+                offsetY = (rows / 2) - (anotherfield.rows / 2);
             }
 
-            for (int i = 0; i < Math.Min(field.cols, cols + offsetX); i++)
-                for (int j = 0; j < Math.Min(field.rows, rows + offsetY); j++)
-                    this.field[i + offsetX, j + offsetY] = field.field[i, j];
+            for (int i = 0; i < Math.Min(cols, anotherfield.cols); i++)
+                for (int j = 0; j < Math.Min(rows, anotherfield.rows); j++)
+                {
+                    int x = i + offsetX;
+                    int y = j + offsetY;
+                    if (x >= 0 && x <= cols && y >= 0 && y <= rows)
+                        field[x, y] = anotherfield.field[i, j];
+                }
         }
 
         public bool IsEmpty()
@@ -234,20 +242,18 @@ namespace Game_Of_Life
                 for (int j = 0; j < rows; j++)
                 {
                     field[i, j] = nextGenField[i, j];
-                    populationCount += Convert.ToInt32(field[i, j]);
-                    nextGenField[i, j] = false;
+                    if (field[i, j]) populationCount++;
                 }
             }
         }
 
         public void RandomCreate(int density)
         {
+            Clear();
+
             for (int i = 0; i < cols; i++)
                 for (int j = 0; j < rows; j++)
-                {
                     if (rnd.Next(density) == 0) AddCell(i, j);
-                    else RemoveCell(i, j);
-                }
         }
 
         public void RemoveCell(int x, int y)

@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.numericUpDownRank = new System.Windows.Forms.NumericUpDown();
+            this.labelRank = new System.Windows.Forms.Label();
             this.labelPopulationCount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -57,16 +59,14 @@
             this.pctrBox = new System.Windows.Forms.PictureBox();
             this.MainTimer = new System.Windows.Forms.Timer(this.components);
             this.SpeedMeasurementTimer = new System.Windows.Forms.Timer(this.components);
-            this.labelRank = new System.Windows.Forms.Label();
-            this.numericUpDownRank = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownDensity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownRes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctrBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -115,6 +115,41 @@
             this.splitContainer1.Size = new System.Drawing.Size(1062, 753);
             this.splitContainer1.SplitterDistance = 100;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // numericUpDownRank
+            // 
+            this.numericUpDownRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.numericUpDownRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownRank.Location = new System.Drawing.Point(775, 66);
+            this.numericUpDownRank.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownRank.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownRank.Name = "numericUpDownRank";
+            this.numericUpDownRank.Size = new System.Drawing.Size(57, 27);
+            this.numericUpDownRank.TabIndex = 26;
+            this.numericUpDownRank.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // labelRank
+            // 
+            this.labelRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelRank.AutoSize = true;
+            this.labelRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRank.Location = new System.Drawing.Point(728, 68);
+            this.labelRank.Name = "labelRank";
+            this.labelRank.Size = new System.Drawing.Size(41, 20);
+            this.labelRank.TabIndex = 25;
+            this.labelRank.Text = "Rank";
             // 
             // labelPopulationCount
             // 
@@ -434,41 +469,6 @@
             this.SpeedMeasurementTimer.Interval = 1000;
             this.SpeedMeasurementTimer.Tick += new System.EventHandler(this.SpeedMeasurementTimer_Tick);
             // 
-            // labelRank
-            // 
-            this.labelRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelRank.AutoSize = true;
-            this.labelRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRank.Location = new System.Drawing.Point(728, 68);
-            this.labelRank.Name = "labelRank";
-            this.labelRank.Size = new System.Drawing.Size(41, 20);
-            this.labelRank.TabIndex = 25;
-            this.labelRank.Text = "Rank";
-            // 
-            // numericUpDownRank
-            // 
-            this.numericUpDownRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.numericUpDownRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDownRank.Location = new System.Drawing.Point(775, 66);
-            this.numericUpDownRank.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDownRank.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownRank.Name = "numericUpDownRank";
-            this.numericUpDownRank.Size = new System.Drawing.Size(57, 27);
-            this.numericUpDownRank.TabIndex = 26;
-            this.numericUpDownRank.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -489,10 +489,10 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownDensity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownRes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctrBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).EndInit();
             this.ResumeLayout(false);
 
         }
