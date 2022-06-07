@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DemonstrateForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.labelType = new System.Windows.Forms.Label();
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonReset = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
@@ -67,15 +66,14 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.labelType);
             this.splitContainer1.Panel2.Controls.Add(this.buttonNext);
             this.splitContainer1.Panel2.Controls.Add(this.buttonReset);
             this.splitContainer1.Panel2.Controls.Add(this.buttonStop);
             this.splitContainer1.Panel2.Controls.Add(this.buttonStart);
             this.splitContainer1.Panel2.Controls.Add(this.label);
             this.splitContainer1.Panel2.Controls.Add(this.numUpDown);
-            this.splitContainer1.Size = new System.Drawing.Size(1052, 890);
-            this.splitContainer1.SplitterDistance = 841;
+            this.splitContainer1.Size = new System.Drawing.Size(732, 653);
+            this.splitContainer1.SplitterDistance = 604;
             this.splitContainer1.TabIndex = 0;
             // 
             // pictureBox1
@@ -83,27 +81,16 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1048, 837);
+            this.pictureBox1.Size = new System.Drawing.Size(728, 600);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // labelType
-            // 
-            this.labelType.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.labelType.AutoSize = true;
-            this.labelType.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.labelType.Location = new System.Drawing.Point(619, 10);
-            this.labelType.Name = "labelType";
-            this.labelType.Size = new System.Drawing.Size(47, 20);
-            this.labelType.TabIndex = 11;
-            this.labelType.Text = "Type: ";
             // 
             // buttonNext
             // 
             this.buttonNext.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonNext.AutoSize = true;
             this.buttonNext.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.buttonNext.Location = new System.Drawing.Point(457, 5);
+            this.buttonNext.Location = new System.Drawing.Point(297, 5);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 30);
             this.buttonNext.TabIndex = 10;
@@ -116,7 +103,7 @@
             this.buttonReset.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonReset.AutoSize = true;
             this.buttonReset.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.buttonReset.Location = new System.Drawing.Point(538, 5);
+            this.buttonReset.Location = new System.Drawing.Point(378, 5);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(75, 30);
             this.buttonReset.TabIndex = 9;
@@ -129,7 +116,7 @@
             this.buttonStop.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonStop.AutoSize = true;
             this.buttonStop.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.buttonStop.Location = new System.Drawing.Point(376, 5);
+            this.buttonStop.Location = new System.Drawing.Point(216, 5);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 30);
             this.buttonStop.TabIndex = 8;
@@ -142,7 +129,7 @@
             this.buttonStart.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonStart.AutoSize = true;
             this.buttonStart.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.buttonStart.Location = new System.Drawing.Point(295, 5);
+            this.buttonStart.Location = new System.Drawing.Point(135, 5);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(75, 30);
             this.buttonStart.TabIndex = 7;
@@ -165,7 +152,7 @@
             // 
             this.numUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.numUpDown.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.numUpDown.Location = new System.Drawing.Point(971, 8);
+            this.numUpDown.Location = new System.Drawing.Point(651, 8);
             this.numUpDown.Maximum = new decimal(new int[] {
             40,
             0,
@@ -229,7 +216,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1052, 890);
+            this.ClientSize = new System.Drawing.Size(732, 653);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -263,6 +250,5 @@
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Button buttonStop;
-        private System.Windows.Forms.Label labelType;
     }
 }

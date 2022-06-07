@@ -31,7 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownRank = new System.Windows.Forms.NumericUpDown();
             this.numUpDownHeight = new System.Windows.Forms.NumericUpDown();
+            this.labelRank = new System.Windows.Forms.Label();
             this.textBoxS = new System.Windows.Forms.TextBox();
             this.textBoxB = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,12 +46,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label5 = new System.Windows.Forms.Label();
-            this.numericUpDownRank = new System.Windows.Forms.NumericUpDown();
-            this.labelRank = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -69,10 +69,34 @@
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(551, 87);
+            this.groupBox1.Size = new System.Drawing.Size(535, 87);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Field";
+            // 
+            // numericUpDownRank
+            // 
+            this.numericUpDownRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.numericUpDownRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownRank.Location = new System.Drawing.Point(415, 21);
+            this.numericUpDownRank.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownRank.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownRank.Name = "numericUpDownRank";
+            this.numericUpDownRank.Size = new System.Drawing.Size(57, 27);
+            this.numericUpDownRank.TabIndex = 28;
+            this.numericUpDownRank.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // numUpDownHeight
             // 
@@ -98,6 +122,17 @@
             0,
             0,
             0});
+            // 
+            // labelRank
+            // 
+            this.labelRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelRank.AutoSize = true;
+            this.labelRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRank.Location = new System.Drawing.Point(368, 23);
+            this.labelRank.Name = "labelRank";
+            this.labelRank.Size = new System.Drawing.Size(41, 20);
+            this.labelRank.TabIndex = 27;
+            this.labelRank.Text = "Rank";
             // 
             // textBoxS
             // 
@@ -204,7 +239,7 @@
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSearch.Location = new System.Drawing.Point(12, 104);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(144, 33);
+            this.btnSearch.Size = new System.Drawing.Size(144, 32);
             this.btnSearch.TabIndex = 19;
             this.btnSearch.Text = "Start searching";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -247,46 +282,11 @@
             this.label5.TabIndex = 23;
             this.label5.Text = "0,0 s";
             // 
-            // numericUpDownRank
-            // 
-            this.numericUpDownRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.numericUpDownRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDownRank.Location = new System.Drawing.Point(415, 21);
-            this.numericUpDownRank.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDownRank.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownRank.Name = "numericUpDownRank";
-            this.numericUpDownRank.Size = new System.Drawing.Size(57, 27);
-            this.numericUpDownRank.TabIndex = 28;
-            this.numericUpDownRank.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // labelRank
-            // 
-            this.labelRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelRank.AutoSize = true;
-            this.labelRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRank.Location = new System.Drawing.Point(368, 23);
-            this.labelRank.Name = "labelRank";
-            this.labelRank.Size = new System.Drawing.Size(41, 20);
-            this.labelRank.TabIndex = 27;
-            this.labelRank.Text = "Rank";
-            // 
             // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(575, 144);
+            this.ClientSize = new System.Drawing.Size(559, 144);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.progressBar1);
@@ -300,9 +300,9 @@
             this.Text = "Structure search";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

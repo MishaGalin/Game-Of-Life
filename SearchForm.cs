@@ -32,23 +32,22 @@ namespace Game_Of_Life
         {
             timer1.Start();
             List<CellularAutomaton> favoriteFields = new List<CellularAutomaton>();
-            int staticFieldCount = 0, periodicallyFieldCount = 0;
 
             await Task.Run(() =>
             {
-                const int LimitOnSearchSteps = 30;
-                CellularAutomaton field = new CellularAutomaton(30, 30, b, s, rank);
-                List<CellularAutomaton> listOfFields = new List<CellularAutomaton>();
+                long progress = 0;
+                const int LimitOnSearchSteps = 15;
+                long numOfCombinations = (long)Math.Pow(2, width * height);
                 List<int> checkedFields = new List<int>();
-                ulong numOfCombinations = (ulong)Math.Pow(2, width * height);
 
-                for (ulong i = 1; i <= numOfCombinations; i++) // основной цикл с перебором всех вариантов начальных условий
+                _ = Parallel.For(0, numOfCombinations + 1, delegate (long i) // основной цикл с перебором всех вариантов начальных условий
                 {
-                    field.Clear();
-                    listOfFields.Clear();
+                    progress++;
+                    CellularAutomaton field = new CellularAutomaton(30, 30, b, s, rank);
+                    List<CellularAutomaton> listOfFields = new List<CellularAutomaton>();
 
                     // перевод счетчика основного цикла в двоичное число с дополнием справа нулями
-                    string binaryString = Convert.ToString((int)i, 2).PadRight(width * height, '0');
+                    string binaryString = Convert.ToString(i, 2).PadRight(width * height, '0');
 
                     // заполнение поля
                     for (int x = 0; x < width; x++)
@@ -61,7 +60,7 @@ namespace Game_Of_Life
                     }
 
                     int sumOfNeighbours = field.GetSumOfAllNeighbours();
-                    if (checkedFields.Contains(sumOfNeighbours)) continue;
+                    if (checkedFields.Contains(sumOfNeighbours)) return;
                     else checkedFields.Add(sumOfNeighbours); // запоминание уже проверенных начальных условий
 
                     for (int j = 0; j < LimitOnSearchSteps; j++) // поиск состояния, совпадающего хотя бы с одним из предыдущих
@@ -74,23 +73,10 @@ namespace Game_Of_Life
                         {
                             if (fieldFromList == field && !field.IsEmpty())  // сравнение с предыдущими состояниями для выявления фигур
                             {
-                                CellularAutomaton prevGenField = field.Clone();
-                                field.NextGeneration();
-                                if (field.Equals(prevGenField))
-                                {
-                                    prevGenField.type = "Static";
-                                    staticFieldCount++;
-                                }
-                                else
-                                {
-                                    prevGenField.type = "Periodically or other";
-                                    periodicallyFieldCount++;
-                                }
-
-                                favoriteFields.Add(prevGenField.Crop());
-                                checkedFields.Add(prevGenField.GetSumOfAllNeighbours());
+                                favoriteFields.Add(field.Crop());
+                                checkedFields.Add(field.GetSumOfAllNeighbours());
                                 isFound = true;
-                                break;
+                                return;
                             }
                         }
 
@@ -100,25 +86,19 @@ namespace Game_Of_Life
 
                     _ = Invoke((Action)(() =>
                       {
-                          float progress = (float)(i + 1) / numOfCombinations * 100;
-                          progressBar1.Value = (int)progress;
+                          progressBar1.Value = (int)((float)(progress + 1) / numOfCombinations * 100);
                       }));
-                }
+                });
             });
 
             btnSearch.Enabled = true;
+            progressBar1.Value = 100;
             timer1.Stop();
 
             if (favoriteFields.Count > 0)
             {
                 DemonstrateForm form3 = new DemonstrateForm(favoriteFields, b, s, rank);
                 form3.Show();
-                _ = MessageBox.Show($"{width} by {height} search: \n" +
-                    $"Total fields: {favoriteFields.Count}\n" +
-                    $"Static fields: {staticFieldCount}\n" +
-                    $"Periodically or other fields: {periodicallyFieldCount}\n" +
-                    $"Static fields percent: {(float)staticFieldCount / favoriteFields.Count * 100} %\n" +
-                    $"Periodically or other fields percent: {(float)periodicallyFieldCount / favoriteFields.Count * 100} %\n");
             }
             else _ = MessageBox.Show("Nothing found.");
         }

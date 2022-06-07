@@ -32,6 +32,8 @@ namespace Game_Of_Life
 
         private List<int> B, S;
         private int rank = 1;
+        private int mouseLastPosX = 0;
+        private int mouseLastPosY = 0;
 
         public MainForm()
         {
@@ -43,7 +45,7 @@ namespace Game_Of_Life
             g = Graphics.FromImage(pctrBox.Image);
 
             ApplySettings();
-            field.Draw(res, ref g, ref pctrBox);
+            field.Draw(res, g, pctrBox);
         }
 
         private void PctrBox_MouseWheel(object sender, MouseEventArgs e)
@@ -52,6 +54,7 @@ namespace Game_Of_Life
                 res++;
             else if (e.Delta < 0 && res - 1 >= numUpDownRes.Minimum)
                 res--;
+            else return;
 
             CellularAutomaton tempField = new CellularAutomaton(pctrBox.Width / res, pctrBox.Height / res, B, S, rank);
             tempField.Insert(field.Crop(), inCenter: true);
@@ -59,7 +62,7 @@ namespace Game_Of_Life
             numUpDownRes.Value = res;
 
             if (!MainTimer.Enabled)
-                field.Draw(res, ref g, ref pctrBox);
+                field.Draw(res, g, pctrBox);
         }
 
         /// <summary>
@@ -70,12 +73,9 @@ namespace Game_Of_Life
             MainTimer.Start();
             SpeedMeasurementTimer.Start();
 
-            btnApply.Enabled = false;
             btnNext.Enabled = false;
             btnStart.Enabled = false;
             btnStop.Enabled = true;
-            textBoxB.Enabled = false;
-            textBoxS.Enabled = false;
         }
 
         /// <summary>
@@ -86,11 +86,9 @@ namespace Game_Of_Life
             MainTimer.Stop();
             SpeedMeasurementTimer.Stop();
 
-            btnApply.Enabled = true;
             btnNext.Enabled = true;
             btnStart.Enabled = true;
-            textBoxB.Enabled = true;
-            textBoxS.Enabled = true;
+
             btnStop.Enabled = false;
 
             genPerSecond = 0;
@@ -103,23 +101,19 @@ namespace Game_Of_Life
             S = textBoxS.Text.Split(' ').Select(int.Parse).ToList();
 
             field = new CellularAutomaton(pctrBox.Width / res, pctrBox.Height / res, B, S, rank);
-            labelGenCount.Text = "0";
         }
 
         private void BtnApply_Click(object sender, EventArgs e)
         {
-            if (MainTimer.Enabled)
-                return;
-
             if (field.IsEmpty()) ApplySettings();
             else
             {
                 CellularAutomaton tempfield = field.Clone();
                 ApplySettings();
-                field.CopyField(tempfield);
+                field.Insert(tempfield);
             }
 
-            field.Draw(res, ref g, ref pctrBox);
+            field.Draw(res, g, pctrBox);
         }
 
         private void BtnClear_Click(object sender, EventArgs e)
@@ -129,7 +123,7 @@ namespace Game_Of_Life
             labelPopulationCount.Text = field.PopulationCount.ToString();
             labelGenCount.Text = field.GenCount.ToString();
 
-            field.Draw(res, ref g, ref pctrBox);
+            field.Draw(res, g, pctrBox);
         }
 
         private void BtnNext_Click(object sender, EventArgs e)
@@ -141,7 +135,7 @@ namespace Game_Of_Life
             labelPopulationCount.Text = field.PopulationCount.ToString();
             labelGenCount.Text = field.GenCount.ToString();
 
-            field.Draw(res, ref g, ref pctrBox);
+            field.Draw(res, g, pctrBox);
         }
 
         private void BtnRandom_Click(object sender, EventArgs e)
@@ -151,7 +145,7 @@ namespace Game_Of_Life
             labelPopulationCount.Text = field.PopulationCount.ToString();
             labelGenCount.Text = field.GenCount.ToString();
 
-            field.Draw(res, ref g, ref pctrBox);
+            field.Draw(res, g, pctrBox);
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -198,32 +192,33 @@ namespace Game_Of_Life
                 field.Insert(tempField, inCenter: true);
             }
 
-            field.Draw(res, ref g, ref pctrBox);
+            field.Draw(res, g, pctrBox);
         }
 
         private void PctrBox_MouseClick(object sender, MouseEventArgs e)
         {
-            int i = e.Location.X / res;
-            int j = e.Location.Y / res;
-            if (!ValidateMousePos(i, j))
+            int x = e.Location.X / res;
+            int y = e.Location.Y / res;
+            if (!ValidateMousePos(x, y))
                 return;
 
             bool fieldChanged = false;
+            mouseLastPosX = x;
+            mouseLastPosY = y;
+
             switch (e.Button)
             {
                 case MouseButtons.Left when ModifierKeys == Keys.Control:
-                    field.UpdateSelection(i, j);
+                    field.UpdateSelection(mouseLastPosX, mouseLastPosY);
                     fieldChanged = true;
                     break;
 
-                case MouseButtons.Left when !field.field[i, j]:
-                    field.AddCell(i, j);
-                    fieldChanged = true;
+                case MouseButtons.Left:
+                    fieldChanged = field.AddCell(mouseLastPosX, mouseLastPosY);
                     break;
 
-                case MouseButtons.Right when field.field[i, j]:
-                    field.RemoveCell(i, j);
-                    fieldChanged = true;
+                case MouseButtons.Right:
+                    fieldChanged = field.RemoveCell(mouseLastPosX, mouseLastPosY);
                     break;
 
                 default:
@@ -233,7 +228,7 @@ namespace Game_Of_Life
             if (!MainTimer.Enabled && fieldChanged)
             {
                 labelPopulationCount.Text = field.PopulationCount.ToString();
-                field.Draw(res, ref g, ref pctrBox);
+                field.Draw(res, g, pctrBox);
             }
         }
 
@@ -246,7 +241,7 @@ namespace Game_Of_Life
             numUpDownRes.Value = res;
 
             if (!MainTimer.Enabled)
-                field.Draw(res, ref g, ref pctrBox);
+                field.Draw(res, g, pctrBox);
         }
 
         private void numUpDownDensity_ValueChanged(object sender, EventArgs e)
@@ -262,39 +257,18 @@ namespace Game_Of_Life
 
         private void pctrBox_MouseDown(object sender, MouseEventArgs e)
         {
-            int i = e.Location.X / res;
+            int x = e.Location.X / res;
             int j = e.Location.Y / res;
-            if (!ValidateMousePos(i, j))
-                return;
-
-            switch (e.Button)
-            {
-                case MouseButtons.Left when ModifierKeys == Keys.Control:
-                    field.StartSelection(i, j);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        private void pctrBox_MouseUp(object sender, MouseEventArgs e)
-        {
-            int i = e.Location.X / res;
-            int j = e.Location.Y / res;
-            if (!ValidateMousePos(i, j))
+            if (!ValidateMousePos(x, j))
                 return;
 
             bool fieldChanged = false;
+            mouseLastPosX = x;
+            mouseLastPosY = j;
             switch (e.Button)
             {
                 case MouseButtons.Left when ModifierKeys == Keys.Control:
-                    field.EndSelection(i, j);
-                    fieldChanged = true;
-                    break;
-
-                case MouseButtons.Right when ModifierKeys == Keys.Control:
-                    field.Paste(i, j);
+                    field.StartSelection(mouseLastPosX, mouseLastPosY);
                     fieldChanged = true;
                     break;
 
@@ -303,7 +277,53 @@ namespace Game_Of_Life
             }
 
             if (!MainTimer.Enabled && fieldChanged)
-                field.Draw(res, ref g, ref pctrBox);
+                field.Draw(res, g, pctrBox);
+        }
+
+        private void pctrBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            int x = e.Location.X / res;
+            int y = e.Location.Y / res;
+            if (!ValidateMousePos(x, y))
+                return;
+
+            bool fieldChanged = false;
+            mouseLastPosX = x;
+            mouseLastPosY = y;
+            switch (e.Button)
+            {
+                case MouseButtons.Left when ModifierKeys == Keys.Control:
+                    field.EndSelection(mouseLastPosX, mouseLastPosY);
+                    fieldChanged = true;
+                    break;
+
+                case MouseButtons.Right when ModifierKeys == Keys.Control:
+                    field.Paste(mouseLastPosX, mouseLastPosY);
+                    fieldChanged = true;
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (!MainTimer.Enabled && fieldChanged)
+            {
+                labelPopulationCount.Text = field.PopulationCount.ToString();
+                field.Draw(res, g, pctrBox);
+            }
+        }
+
+        private void pctrBox_MouseLeave(object sender, EventArgs e)
+        {
+            field.EndSelection(mouseLastPosX, mouseLastPosY);
+            if (!MainTimer.Enabled)
+                field.Draw(res, g, pctrBox);
+        }
+
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Control)
+                field.EndSelection(mouseLastPosX, mouseLastPosY);
         }
 
         private void MainForm_ResizeBegin(object sender, EventArgs e)
@@ -319,7 +339,7 @@ namespace Game_Of_Life
             labelGenCount.Text = field.GenCount.ToString();
             genPerSecond++;
 
-            field.Draw(res, ref g, ref pctrBox);
+            field.Draw(res, g, pctrBox);
         }
 
         private void SpeedMeasurementTimer_Tick(object sender, EventArgs e)

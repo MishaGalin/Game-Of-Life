@@ -74,7 +74,6 @@
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -112,15 +111,15 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pctrBox);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(1062, 753);
-            this.splitContainer1.SplitterDistance = 100;
+            this.splitContainer1.Size = new System.Drawing.Size(1182, 853);
+            this.splitContainer1.SplitterDistance = 110;
             this.splitContainer1.TabIndex = 0;
             // 
             // numericUpDownRank
             // 
             this.numericUpDownRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.numericUpDownRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDownRank.Location = new System.Drawing.Point(775, 66);
+            this.numericUpDownRank.Location = new System.Drawing.Point(762, 72);
             this.numericUpDownRank.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -146,7 +145,7 @@
             this.labelRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelRank.AutoSize = true;
             this.labelRank.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRank.Location = new System.Drawing.Point(728, 68);
+            this.labelRank.Location = new System.Drawing.Point(715, 74);
             this.labelRank.Name = "labelRank";
             this.labelRank.Size = new System.Drawing.Size(41, 20);
             this.labelRank.TabIndex = 25;
@@ -157,7 +156,7 @@
             this.labelPopulationCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelPopulationCount.AutoSize = true;
             this.labelPopulationCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPopulationCount.Location = new System.Drawing.Point(679, 38);
+            this.labelPopulationCount.Location = new System.Drawing.Point(666, 44);
             this.labelPopulationCount.Name = "labelPopulationCount";
             this.labelPopulationCount.Size = new System.Drawing.Size(17, 20);
             this.labelPopulationCount.TabIndex = 24;
@@ -168,7 +167,7 @@
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(568, 38);
+            this.label4.Location = new System.Drawing.Point(555, 44);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(83, 20);
             this.label4.TabIndex = 23;
@@ -179,9 +178,9 @@
             this.btnSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnSearch.AutoSize = true;
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(890, 17);
+            this.btnSearch.Location = new System.Drawing.Point(223, 71);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(158, 33);
+            this.btnSearch.Size = new System.Drawing.Size(304, 30);
             this.btnSearch.TabIndex = 21;
             this.btnSearch.Text = "Structure search";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -192,7 +191,7 @@
             this.labelSpeedNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSpeedNum.AutoSize = true;
             this.labelSpeedNum.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSpeedNum.Location = new System.Drawing.Point(679, 68);
+            this.labelSpeedNum.Location = new System.Drawing.Point(666, 74);
             this.labelSpeedNum.Name = "labelSpeedNum";
             this.labelSpeedNum.Size = new System.Drawing.Size(17, 20);
             this.labelSpeedNum.TabIndex = 20;
@@ -203,20 +202,20 @@
             this.labelSpeed.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSpeed.AutoSize = true;
             this.labelSpeed.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSpeed.Location = new System.Drawing.Point(568, 68);
+            this.labelSpeed.Location = new System.Drawing.Point(555, 74);
             this.labelSpeed.Name = "labelSpeed";
             this.labelSpeed.Size = new System.Drawing.Size(105, 20);
             this.labelSpeed.TabIndex = 19;
-            this.labelSpeed.Text = "Speed (gen\\s):";
+            this.labelSpeed.Text = "Speed (gen/s):";
             // 
             // btnApply
             // 
             this.btnApply.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnApply.AutoSize = true;
             this.btnApply.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApply.Location = new System.Drawing.Point(401, 53);
+            this.btnApply.Location = new System.Drawing.Point(377, 39);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(161, 33);
+            this.btnApply.Size = new System.Drawing.Size(150, 30);
             this.btnApply.TabIndex = 18;
             this.btnApply.Text = "Apply settings";
             this.btnApply.UseVisualStyleBackColor = true;
@@ -227,9 +226,9 @@
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.button1.AutoSize = true;
             this.button1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(401, 17);
+            this.button1.Location = new System.Drawing.Point(377, 8);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(161, 33);
+            this.button1.Size = new System.Drawing.Size(150, 30);
             this.button1.TabIndex = 17;
             this.button1.Text = "Generate randomly";
             this.button1.UseVisualStyleBackColor = true;
@@ -237,8 +236,9 @@
             // 
             // textBoxS
             // 
+            this.textBoxS.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.textBoxS.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxS.Location = new System.Drawing.Point(744, 35);
+            this.textBoxS.Location = new System.Drawing.Point(730, 41);
             this.textBoxS.Name = "textBoxS";
             this.textBoxS.Size = new System.Drawing.Size(130, 27);
             this.textBoxS.TabIndex = 16;
@@ -246,8 +246,9 @@
             // 
             // textBoxB
             // 
+            this.textBoxB.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.textBoxB.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxB.Location = new System.Drawing.Point(744, 5);
+            this.textBoxB.Location = new System.Drawing.Point(730, 11);
             this.textBoxB.Name = "textBoxB";
             this.textBoxB.Size = new System.Drawing.Size(130, 27);
             this.textBoxB.TabIndex = 15;
@@ -258,7 +259,7 @@
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(728, 38);
+            this.label3.Location = new System.Drawing.Point(715, 44);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 20);
             this.label3.TabIndex = 14;
@@ -269,7 +270,7 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(728, 7);
+            this.label2.Location = new System.Drawing.Point(715, 14);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(18, 20);
             this.label2.TabIndex = 13;
@@ -286,7 +287,7 @@
             "250",
             "500",
             "1000"});
-            this.comboBoxTimer.Location = new System.Drawing.Point(113, 65);
+            this.comboBoxTimer.Location = new System.Drawing.Point(116, 72);
             this.comboBoxTimer.Name = "comboBoxTimer";
             this.comboBoxTimer.Size = new System.Drawing.Size(80, 28);
             this.comboBoxTimer.TabIndex = 12;
@@ -298,7 +299,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(10, 68);
+            this.label1.Location = new System.Drawing.Point(10, 75);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 20);
             this.label1.TabIndex = 11;
@@ -309,7 +310,7 @@
             this.labelGenCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelGenCount.AutoSize = true;
             this.labelGenCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGenCount.Location = new System.Drawing.Point(679, 7);
+            this.labelGenCount.Location = new System.Drawing.Point(666, 14);
             this.labelGenCount.Name = "labelGenCount";
             this.labelGenCount.Size = new System.Drawing.Size(17, 20);
             this.labelGenCount.TabIndex = 10;
@@ -320,7 +321,7 @@
             this.labelGen.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelGen.AutoSize = true;
             this.labelGen.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGen.Location = new System.Drawing.Point(568, 7);
+            this.labelGen.Location = new System.Drawing.Point(555, 14);
             this.labelGen.Name = "labelGen";
             this.labelGen.Size = new System.Drawing.Size(85, 20);
             this.labelGen.TabIndex = 9;
@@ -331,9 +332,9 @@
             this.btnClear.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnClear.AutoSize = true;
             this.btnClear.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.Location = new System.Drawing.Point(317, 52);
+            this.btnClear.Location = new System.Drawing.Point(300, 39);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 33);
+            this.btnClear.Size = new System.Drawing.Size(75, 30);
             this.btnClear.TabIndex = 8;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -344,9 +345,9 @@
             this.btnNext.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnNext.AutoSize = true;
             this.btnNext.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNext.Location = new System.Drawing.Point(317, 17);
+            this.btnNext.Location = new System.Drawing.Point(300, 8);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(75, 33);
+            this.btnNext.Size = new System.Drawing.Size(75, 30);
             this.btnNext.TabIndex = 7;
             this.btnNext.Text = "Next";
             this.btnNext.UseVisualStyleBackColor = true;
@@ -358,9 +359,9 @@
             this.btnStop.AutoSize = true;
             this.btnStop.Enabled = false;
             this.btnStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(236, 52);
+            this.btnStop.Location = new System.Drawing.Point(223, 39);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(75, 33);
+            this.btnStop.Size = new System.Drawing.Size(75, 30);
             this.btnStop.TabIndex = 6;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -371,9 +372,9 @@
             this.btnStart.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnStart.AutoSize = true;
             this.btnStart.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(236, 17);
+            this.btnStart.Location = new System.Drawing.Point(223, 8);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 33);
+            this.btnStart.Size = new System.Drawing.Size(75, 30);
             this.btnStart.TabIndex = 5;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -383,7 +384,7 @@
             // 
             this.numUpDownDensity.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.numUpDownDensity.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numUpDownDensity.Location = new System.Drawing.Point(132, 36);
+            this.numUpDownDensity.Location = new System.Drawing.Point(139, 40);
             this.numUpDownDensity.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -409,7 +410,7 @@
             this.labelDensity.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelDensity.AutoSize = true;
             this.labelDensity.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDensity.Location = new System.Drawing.Point(10, 38);
+            this.labelDensity.Location = new System.Drawing.Point(10, 42);
             this.labelDensity.Name = "labelDensity";
             this.labelDensity.Size = new System.Drawing.Size(118, 20);
             this.labelDensity.TabIndex = 3;
@@ -419,7 +420,7 @@
             // 
             this.numUpDownRes.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.numUpDownRes.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numUpDownRes.Location = new System.Drawing.Point(154, 5);
+            this.numUpDownRes.Location = new System.Drawing.Point(139, 9);
             this.numUpDownRes.Maximum = new decimal(new int[] {
             20,
             0,
@@ -445,7 +446,7 @@
             this.labelRes.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelRes.AutoSize = true;
             this.labelRes.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRes.Location = new System.Drawing.Point(10, 7);
+            this.labelRes.Location = new System.Drawing.Point(10, 11);
             this.labelRes.Name = "labelRes";
             this.labelRes.Size = new System.Drawing.Size(123, 20);
             this.labelRes.TabIndex = 1;
@@ -456,11 +457,12 @@
             this.pctrBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pctrBox.Location = new System.Drawing.Point(0, 0);
             this.pctrBox.Name = "pctrBox";
-            this.pctrBox.Size = new System.Drawing.Size(1058, 645);
+            this.pctrBox.Size = new System.Drawing.Size(1178, 735);
             this.pctrBox.TabIndex = 0;
             this.pctrBox.TabStop = false;
             this.pctrBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PctrBox_MouseClick);
             this.pctrBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pctrBox_MouseDown);
+            this.pctrBox.MouseLeave += new System.EventHandler(this.pctrBox_MouseLeave);
             this.pctrBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PctrBox_MouseClick);
             this.pctrBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pctrBox_MouseUp);
             // 
@@ -479,16 +481,17 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1062, 753);
+            this.ClientSize = new System.Drawing.Size(1182, 853);
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1080, 500);
+            this.MinimumSize = new System.Drawing.Size(900, 800);
             this.Name = "MainForm";
             this.Text = "Game of Life";
             this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin);
             this.ResizeEnd += new System.EventHandler(this.MainForm_Resize);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

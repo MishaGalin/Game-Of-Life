@@ -29,10 +29,9 @@ namespace Game_Of_Life
             g = Graphics.FromImage(pictureBox1.Image);
             field = new CellularAutomaton(pictureBox1.Width / res, pictureBox1.Height / res, B, S, rank);
             field.Insert(favoriteFields[0], inCenter: true);
-            field.Draw(res, ref g, ref pictureBox1);
+            field.Draw(res, g, pictureBox1);
 
             label.Text = $"Found {favoriteFields.Count} figures";
-            labelType.Text = "Type: " + favoriteFields[0].type;
         }
 
         private void numUpDown_ValueChanged(object sender, EventArgs e)
@@ -40,9 +39,7 @@ namespace Game_Of_Life
             StopTimer();
             currentField = decimal.ToInt32(numUpDown.Value) - 1;
             field.Insert(favoriteFields[currentField], inCenter: true);
-            field.Draw(res, ref g, ref pictureBox1);
-
-            labelType.Text = "Type: " + favoriteFields[currentField].type;
+            field.Draw(res, g, pictureBox1);
         }
 
         private void DemonstrationForm_ResizeEnd(object sender, EventArgs e)
@@ -51,13 +48,13 @@ namespace Game_Of_Life
             g = Graphics.FromImage(pictureBox1.Image);
             field = new CellularAutomaton(pictureBox1.Width / res, pictureBox1.Height / res, B, S, rank);
             field.Insert(favoriteFields[currentField], inCenter: true);
-            field.Draw(res, ref g, ref pictureBox1);
+            field.Draw(res, g, pictureBox1);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             field.NextGeneration();
-            field.Draw(res, ref g, ref pictureBox1);
+            field.Draw(res, g, pictureBox1);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -86,13 +83,13 @@ namespace Game_Of_Life
         {
             StopTimer();
             field.Insert(favoriteFields[currentField], inCenter: true);
-            field.Draw(res, ref g, ref pictureBox1);
+            field.Draw(res, g, pictureBox1);
         }
 
         private void buttonNext_Click(object sender, EventArgs e)
         {
             field.NextGeneration();
-            field.Draw(res, ref g, ref pictureBox1);
+            field.Draw(res, g, pictureBox1);
         }
     }
 }
