@@ -43,20 +43,20 @@ namespace Game_Of_Life
         /// <summary>
         /// Цвет фона.
         /// </summary>
-        private static readonly Color backgroundColor = Color.Black;
+        public static readonly Color backgroundColor = Color.Black;
 
         /// <summary>
         /// Цвет клеток.
         /// </summary>
-        private static readonly Brush cellColor = Brushes.White;
+        public static readonly Brush cellColor = Brushes.White;
 
         /// <summary>
         /// Цвет сетки.
         /// </summary>
-        private static readonly Pen gridColor = Pens.DarkSlateGray;
+        public static readonly Pen gridColor = Pens.DarkSlateGray;
 
         private static readonly Random rnd = new Random();
-        private static readonly Brush selectionColor = Brushes.Yellow;
+        public static readonly Brush selectionColor = Brushes.Yellow;
 
         /// <summary>
         /// Промежуточный массив для генерации следующего поколения.
@@ -66,14 +66,17 @@ namespace Game_Of_Life
         /// <summary>
         /// Точки для отрисовки прямоугльника выделения.
         /// </summary>
-        private readonly Point startSelection = new Point(), endSelection = new Point();
+        private readonly Point startSelectionDynamicPoint = new Point(), endSelectionDynamicPoint = new Point();
 
         /// <summary>
         /// Фиксированная точка начала выделения.
         /// </summary>
-        private readonly Point startSelectionPoint = new Point();
+        private readonly Point startSelectionFixedPoint = new Point();
 
-        private bool DrawingSelection = false;
+        public bool SelectionIsStarted = false;
+        public double zoom = 1;
+        public int zoomOffsetX = 0, zoomOffsetY = 0, zoomMemoryOffsetX = 0, zoomMemoryOffsetY = 0;
+        public int zoomStartOffsetX = 0, zoomStartOffsetY = 0, zoomEndOffsetX = 0, zoomEndOffsetY = 0;
 
         public CellularAutomaton()
         {
@@ -81,6 +84,18 @@ namespace Game_Of_Life
             S = new List<int>(2) { 2, 3 };
             field = new bool[cols, rows];
             nextGenField = new bool[cols, rows];
+        }
+
+        internal int CountPopulation()
+        {
+            int count = 0;
+
+            for (int i = 0; i < cols; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                    if (field[i, j]) count++;
+            }
+            return count;
         }
 
         public CellularAutomaton(int cols, int rows, List<int> B, List<int> S, int rank = 1)
@@ -123,9 +138,11 @@ namespace Game_Of_Life
             GenCount = 0;
             PopulationCount = 0;
 
-            for (int i = 0; i < cols; i++)
+            _ = Parallel.For(0, cols, delegate (int i)
+            {
                 for (int j = 0; j < rows; j++)
                     field[i, j] = false;
+            });
         }
 
         public CellularAutomaton Clone()
@@ -142,38 +159,32 @@ namespace Game_Of_Life
             return tempField;
         }
 
-        public void CopyField(CellularAutomaton anotherField)
-        {
-            cols = anotherField.cols;
-            rows = anotherField.rows;
-            field = (bool[,])anotherField.field.Clone();
-        }
-
         /// <summary>
         /// Возвращает новое поле, оставляя от исходного только наименьшую часть с клетками.
         /// </summary>
         public CellularAutomaton Crop()
         {
-            if (IsEmpty()) return new CellularAutomaton(0, 0, B, S, rank);
+            if (IsEmpty())
+                return new CellularAutomaton(0, 0, B, S, rank);
 
             int leftmostX = cols, rightmostX = 0, topmostY = rows, lowestY = 0;
 
             // поиск граничных точек
             _ = Parallel.For(0, cols, delegate (int i)
-            {
-                for (int j = 0; j < rows; j++)
-                    if (field[i, j])
-                    {
-                        if (leftmostX > i)
-                            leftmostX = i;
-                        if (rightmostX < i)
-                            rightmostX = i;
-                        if (topmostY > j)
-                            topmostY = j;
-                        if (lowestY < j)
-                            lowestY = j;
-                    }
-            });
+           {
+               for (int j = 0; j < rows; j++)
+                   if (field[i, j])
+                   {
+                       if (leftmostX > i)
+                           leftmostX = i;
+                       if (rightmostX < i)
+                           rightmostX = i;
+                       if (topmostY > j)
+                           topmostY = j;
+                       if (lowestY < j)
+                           lowestY = j;
+                   }
+           });
 
             CellularAutomaton tempField = new CellularAutomaton(rightmostX - leftmostX + 1, lowestY - topmostY + 1, B, S)
             {
@@ -184,32 +195,43 @@ namespace Game_Of_Life
                 fieldInClipboard = fieldInClipboard
             };
 
-            for (int i = 0; i < tempField.cols; i++)
+            _ = Parallel.For(0, tempField.cols, delegate (int i)
+            {
                 for (int j = 0; j < tempField.rows; j++)
                     tempField.field[i, j] = field[leftmostX + i, topmostY + j];
-
+            });
             return tempField;
         }
 
         public void Draw(int res, Graphics g, PictureBox pictureBox)
         {
             g.Clear(backgroundColor);
+            int scale = (int)(res * zoom);
+            zoomOffsetX = zoomEndOffsetX - zoomStartOffsetX + zoomMemoryOffsetX;
+            zoomOffsetY = zoomEndOffsetY - zoomStartOffsetY + zoomMemoryOffsetY;
+
+            if (zoomOffsetX > 0) zoomOffsetX = 0;
+            else if (zoomOffsetX < cols * res * (1 - zoom)) zoomOffsetX = (int)(cols * res * (1 - zoom));
+
+            if (zoomOffsetY > 0) zoomOffsetY = 0;
+            else if (zoomOffsetY < rows * res * (1 - zoom)) zoomOffsetY = (int)(rows * res * (1 - zoom));
 
             // Клетки
             for (int i = 0; i < cols; i++)
                 for (int j = 0; j < rows; j++)
-                    if (field[i, j]) g.FillRectangle(cellColor, i * res, j * res, res, res);
+                    if (field[i, j]) g.FillRectangle(cellColor, (i * scale) + zoomOffsetX, (j * scale) + zoomOffsetY, scale, scale);
 
-            // Сетка
+            // Вертикальные линии сетки
             for (int i = 0; i <= cols; i++)
-                g.DrawLine(gridColor, i * res, 0, i * res, rows * res);
+                g.DrawLine(gridColor, (i * scale) + zoomOffsetX, 0, (i * scale) + zoomOffsetX, rows * scale);
 
+            // Горизонтальные линии сетки
             for (int i = 0; i <= rows; i++)
-                g.DrawLine(gridColor, 0, i * res, cols * res, i * res);
+                g.DrawLine(gridColor, 0, (i * scale) + zoomOffsetY, cols * scale, (i * scale) + zoomOffsetY);
 
             // Выделение
-            if (DrawingSelection)
-                DrawSelection(res, g);
+            if (SelectionIsStarted)
+                DrawSelection(scale + zoomOffsetX, g);
 
             pictureBox.Refresh();
         }
@@ -257,7 +279,8 @@ namespace Game_Of_Life
                 offsetY = (rows / 2) - (anotherfield.rows / 2);
             }
 
-            for (int i = 0; i < Math.Min(cols, anotherfield.cols); i++)
+            _ = Parallel.For(0, Math.Min(cols, anotherfield.cols), delegate (int i)
+            {
                 for (int j = 0; j < Math.Min(rows, anotherfield.rows); j++)
                 {
                     int x = i + offsetX;
@@ -265,6 +288,7 @@ namespace Game_Of_Life
                     if (x >= 0 && x <= cols && y >= 0 && y <= rows)
                         field[x, y] = anotherfield.field[i, j];
                 }
+            });
         }
 
         public bool IsEmpty()
@@ -300,9 +324,7 @@ namespace Game_Of_Life
             _ = Parallel.For(0, cols, delegate (int i)
             {
                 for (int j = 0; j < rows; j++)
-                {
                     field[i, j] = nextGenField[i, j];
-                }
             });
         }
 
@@ -321,31 +343,28 @@ namespace Game_Of_Life
                 return false;
 
             PopulationCount--;
-            field[x, y] = true;
+            field[x, y] = false;
             return true;
         }
 
         internal void EndSelection(int x, int y)
         {
-            DrawingSelection = false;
-            startSelection.x = Math.Min(startSelectionPoint.x, x);
-            startSelection.y = Math.Min(startSelectionPoint.y, y);
-            endSelection.x = Math.Max(startSelectionPoint.x, x);
-            endSelection.y = Math.Max(startSelectionPoint.y, y);
-            int fieldInClipboardSizeX = endSelection.x - startSelection.x - 1;
-            int fieldInClipboardSizeY = endSelection.y - startSelection.y - 1;
+            SelectionIsStarted = false;
+            startSelectionDynamicPoint.x = Math.Min(startSelectionFixedPoint.x, x);
+            startSelectionDynamicPoint.y = Math.Min(startSelectionFixedPoint.y, y);
+            endSelectionDynamicPoint.x = Math.Max(startSelectionFixedPoint.x, x);
+            endSelectionDynamicPoint.y = Math.Max(startSelectionFixedPoint.y, y);
+            int sizeOfFieldInClipboardX = endSelectionDynamicPoint.x - startSelectionDynamicPoint.x - 1;
+            int sizeOfFieldInClipboardY = endSelectionDynamicPoint.y - startSelectionDynamicPoint.y - 1;
 
-            if (fieldInClipboardSizeX == -1 || fieldInClipboardSizeY == -1)
+            if (sizeOfFieldInClipboardX == -1 || sizeOfFieldInClipboardY == -1)
                 return;
 
-            fieldInClipboard = new CellularAutomaton(fieldInClipboardSizeX, fieldInClipboardSizeY, B, S);
+            fieldInClipboard = new CellularAutomaton(sizeOfFieldInClipboardX, sizeOfFieldInClipboardY, B, S);
+
             for (int i = 0; i < fieldInClipboard.cols; i++)
-            {
                 for (int j = 0; j < fieldInClipboard.rows; j++)
-                {
-                    fieldInClipboard.field[i, j] = field[i + startSelection.x + 1, j + startSelection.y + 1];
-                }
-            }
+                    fieldInClipboard.field[i, j] = field[i + startSelectionDynamicPoint.x + 1, j + startSelectionDynamicPoint.y + 1];
 
             fieldInClipboard = fieldInClipboard.Crop();
         }
@@ -356,36 +375,34 @@ namespace Game_Of_Life
                 return;
 
             _ = Parallel.For(0, fieldInClipboard.cols, delegate (int i)
-            {
-                for (int j = 0; j < fieldInClipboard.rows; j++)
-                {
-                    if (fieldInClipboard.field[i, j])
-                        _ = AddCell((i + x - (fieldInClipboard.cols / 2) + cols) % cols, (j + y - (fieldInClipboard.rows / 2) + rows) % rows);
-                }
-            });
+           {
+               for (int j = 0; j < fieldInClipboard.rows; j++)
+                   if (fieldInClipboard.field[i, j])
+                       _ = AddCell((i + x - (fieldInClipboard.cols / 2) + cols) % cols, (j + y - (fieldInClipboard.rows / 2) + rows) % rows);
+           });
         }
 
         internal void StartSelection(int x, int y)
         {
-            DrawingSelection = true;
-            startSelectionPoint.x = x;
-            startSelectionPoint.y = y;
-            startSelection.x = x;
-            startSelection.y = y;
-            endSelection.x = x;
-            endSelection.y = y;
+            SelectionIsStarted = true;
+            startSelectionFixedPoint.x = x;
+            startSelectionFixedPoint.y = y;
+            startSelectionDynamicPoint.x = x;
+            startSelectionDynamicPoint.y = y;
+            endSelectionDynamicPoint.x = x;
+            endSelectionDynamicPoint.y = y;
         }
 
         internal void UpdateSelection(int x, int y)
         {
-            if (!DrawingSelection)
+            if (!SelectionIsStarted)
                 StartSelection(x, y);
             else
             {
-                startSelection.x = Math.Min(startSelectionPoint.x, x);
-                startSelection.y = Math.Min(startSelectionPoint.y, y);
-                endSelection.x = Math.Max(startSelectionPoint.x, x);
-                endSelection.y = Math.Max(startSelectionPoint.y, y);
+                startSelectionDynamicPoint.x = Math.Min(startSelectionFixedPoint.x, x);
+                startSelectionDynamicPoint.y = Math.Min(startSelectionFixedPoint.y, y);
+                endSelectionDynamicPoint.x = Math.Max(startSelectionFixedPoint.x, x);
+                endSelectionDynamicPoint.y = Math.Max(startSelectionFixedPoint.y, y);
             }
         }
 
@@ -403,8 +420,7 @@ namespace Game_Of_Life
 
                     int col = (x + i + cols) % cols;
                     int row = (y + j + rows) % rows;
-                    if (field[col, row])
-                        count++;
+                    if (field[col, row]) count++;
                 }
 
             return count;
@@ -412,17 +428,16 @@ namespace Game_Of_Life
 
         private void DrawSelection(int res, Graphics g)
         {
-            for (int i = startSelection.x; i <= endSelection.x; i++)
-                for (int j = startSelection.y; j <= endSelection.y; j++)
+            for (int i = startSelectionDynamicPoint.x; i <= endSelectionDynamicPoint.x; i++)
+            {
+                for (int j = startSelectionDynamicPoint.y; j <= endSelectionDynamicPoint.y; j++)
                 {
-                    if (i == startSelection.x || j == startSelection.y || i == endSelection.x || j == endSelection.y) // если текущая клетка находится на границе прямоугольника выделения
-                        g.FillRectangle(selectionColor, i * res, j * res, res, res);
-                    else
-                    {
-                        j = endSelection.y; // если текущая клетка внутри прямоугольника, сразу переходим к нижней границе
-                        g.FillRectangle(selectionColor, i * res, j * res, res, res);
-                    }
+                    if (i != startSelectionDynamicPoint.x && j != startSelectionDynamicPoint.y && i != endSelectionDynamicPoint.x && j != endSelectionDynamicPoint.y)
+                        j = endSelectionDynamicPoint.y; // если текущая клетка внутри прямоугольника, сразу переходим к нижней границе
+
+                    g.FillRectangle(selectionColor, i * res, j * res, res, res);
                 }
+            }
         }
     }
 

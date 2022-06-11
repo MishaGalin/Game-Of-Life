@@ -52,7 +52,7 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer1.IsSplitterFixed = true;
@@ -73,7 +73,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.label);
             this.splitContainer1.Panel2.Controls.Add(this.numUpDown);
             this.splitContainer1.Size = new System.Drawing.Size(732, 653);
-            this.splitContainer1.SplitterDistance = 604;
+            this.splitContainer1.SplitterDistance = 607;
+            this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 0;
             // 
             // pictureBox1
@@ -81,7 +82,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(728, 600);
+            this.pictureBox1.Size = new System.Drawing.Size(730, 605);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -90,7 +91,7 @@
             this.buttonNext.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonNext.AutoSize = true;
             this.buttonNext.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.buttonNext.Location = new System.Drawing.Point(297, 5);
+            this.buttonNext.Location = new System.Drawing.Point(298, 7);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 30);
             this.buttonNext.TabIndex = 10;
@@ -103,7 +104,7 @@
             this.buttonReset.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonReset.AutoSize = true;
             this.buttonReset.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.buttonReset.Location = new System.Drawing.Point(378, 5);
+            this.buttonReset.Location = new System.Drawing.Point(379, 7);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(75, 30);
             this.buttonReset.TabIndex = 9;
@@ -116,7 +117,7 @@
             this.buttonStop.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonStop.AutoSize = true;
             this.buttonStop.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.buttonStop.Location = new System.Drawing.Point(216, 5);
+            this.buttonStop.Location = new System.Drawing.Point(217, 7);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 30);
             this.buttonStop.TabIndex = 8;
@@ -129,7 +130,7 @@
             this.buttonStart.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonStart.AutoSize = true;
             this.buttonStart.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.buttonStart.Location = new System.Drawing.Point(135, 5);
+            this.buttonStart.Location = new System.Drawing.Point(136, 7);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(75, 30);
             this.buttonStart.TabIndex = 7;
@@ -142,7 +143,7 @@
             this.label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label.AutoSize = true;
             this.label.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label.Location = new System.Drawing.Point(10, 10);
+            this.label.Location = new System.Drawing.Point(10, 12);
             this.label.Name = "label";
             this.label.Size = new System.Drawing.Size(111, 20);
             this.label.TabIndex = 6;
@@ -152,7 +153,7 @@
             // 
             this.numUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.numUpDown.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.numUpDown.Location = new System.Drawing.Point(651, 8);
+            this.numUpDown.Location = new System.Drawing.Point(653, 10);
             this.numUpDown.Maximum = new decimal(new int[] {
             40,
             0,
