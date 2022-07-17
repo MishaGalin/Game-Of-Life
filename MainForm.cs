@@ -12,36 +12,39 @@ namespace Game_Of_Life
         /// <summary>
         /// Плотность (чем меньше значение, тем больше вероятность появления клетки). Используется для создания случайного поля.
         /// </summary>
-        public int density = 10;
+        public int density = 10, res = 8;
 
         public CellularAutomaton field;
+
         public Graphics g;
 
         /// <summary>
         /// Длина стороны квадрата, занимаемого одной клеткой, в пикселях.
         /// </summary>
-        public int res = 8;
 
         /// <summary>
         /// Стандартное значение интервала таймера в миллисекундах.
         /// </summary>
         private const int defaultTimerInterval = 25;
 
-        private float tickPerSecond = 0;
-
-        private int widthWhenBeginResize, heightWhenBeginResize, widthWhenEndResize, heightWhenEndResize;
+        private bool animationIsStarted = false;
 
         private List<int> B, S;
+
+        private int mouseLastPosX = 0, mouseLastPosY = 0;
+
         private int rank = 1;
-        private int mouseLastPosX = 0;
-        private int mouseLastPosY = 0;
-        private bool animationIsStarted = false;
+
+        private int tickPerSecond = 0;
+
+        private int widthWhenBeginResize, heightWhenBeginResize, widthWhenEndResize, heightWhenEndResize;
 
         public MainForm()
         {
             InitializeComponent();
             SetDefaultInterval();
             pctrBox.MouseWheel += PctrBox_MouseWheel;
+            field.MyEvent += new EventDelegate()
 
             pctrBox.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pctrBox.Image);
@@ -50,65 +53,9 @@ namespace Game_Of_Life
             field.Draw(res, g, pctrBox);
         }
 
-        private async void PctrBox_MouseWheel(object sender, MouseEventArgs e)
+        private static bool CloseEnough(double d1, double d2, double maxDifference = 0.001)
         {
-            if (animationIsStarted
-                || (e.Delta < 0 && Math.Abs(field.zoom - 1) < 0.01)
-                || (e.Delta > 0 && Math.Abs(field.zoom - 4) < 0.01))
-                return;
-
-            //field.zoomOffsetX = e.X * (e.Delta < 0 ? 1 : -1);
-            //field.zoomOffsetY = e.Y * (e.Delta < 0 ? 1 : -1);
-
-            double goalZoom = field.zoom + (e.Delta > 0 ? 1 : -1);
-            animationIsStarted = true;
-            if (Math.Abs(1 - goalZoom) < 0.01)
-            {
-                field.zoomOffsetX = 0;
-                field.zoomOffsetY = 0;
-                field.zoomMemoryOffsetX = 0;
-                field.zoomMemoryOffsetY = 0;
-            }
-
-            while (Math.Abs(field.zoom - goalZoom) > 0.01)
-            {
-                field.zoom += e.Delta > 0 ? 0.1 : -0.1;
-
-                labelZoom.Text = $"Zoom: {field.zoom}x";
-                field.Draw(res, g, pctrBox);
-                await Task.Delay(1);
-            }
-
-            animationIsStarted = false;
-        }
-
-        /// <summary>
-        /// Запуск таймера.
-        /// </summary>
-        private void StartGame()
-        {
-            MainTimer.Start();
-            SpeedMeasurementTimer.Start();
-
-            btnNext.Enabled = false;
-            btnStart.Enabled = false;
-            btnStop.Enabled = true;
-        }
-
-        /// <summary>
-        /// Остановка таймера.
-        /// </summary>
-        private void StopGame()
-        {
-            MainTimer.Stop();
-            SpeedMeasurementTimer.Stop();
-
-            btnNext.Enabled = true;
-            btnStart.Enabled = true;
-            btnStop.Enabled = false;
-
-            tickPerSecond = 0;
-            labelSpeedNum.Text = "0";
+            return Math.Abs(d1 - d2) < maxDifference;
         }
 
         private void ApplySettings()
@@ -121,7 +68,10 @@ namespace Game_Of_Life
 
         private void BtnApply_Click(object sender, EventArgs e)
         {
-            if (field.IsEmpty()) ApplySettings();
+            if (field.IsEmpty())
+            {
+                ApplySettings();
+            }
             else
             {
                 CellularAutomaton tempfield = field.Clone();
@@ -136,8 +86,8 @@ namespace Game_Of_Life
         {
             StopGame();
             field.Clear();
-            labelPopulationCount.Text = field.PopulationCount.ToString();
-            labelGenCount.Text = field.GenCount.ToString();
+            labelPopulation.Text = $"Population: {field.PopulationCount}";
+            labelGen.Text = $"Generation: {field.GenCount}";
 
             field.Draw(res, g, pctrBox);
         }
@@ -145,11 +95,13 @@ namespace Game_Of_Life
         private void BtnNext_Click(object sender, EventArgs e)
         {
             if (MainTimer.Enabled)
+            {
                 return;
+            }
 
             field.NextGeneration();
-            labelPopulationCount.Text = field.PopulationCount.ToString();
-            labelGenCount.Text = field.GenCount.ToString();
+            labelPopulation.Text = $"Population: {field.PopulationCount}";
+            labelGen.Text = $"Generation: {field.GenCount}";
 
             field.Draw(res, g, pctrBox);
         }
@@ -158,8 +110,8 @@ namespace Game_Of_Life
         {
             StopGame();
             field.RandomCreate(density);
-            labelPopulationCount.Text = field.PopulationCount.ToString();
-            labelGenCount.Text = field.GenCount.ToString();
+            labelPopulation.Text = $"Population: {field.PopulationCount}";
+            labelGen.Text = $"Generation: {field.GenCount}";
 
             field.Draw(res, g, pctrBox);
         }
@@ -179,14 +131,13 @@ namespace Game_Of_Life
         private void ComboBoxTimer_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(comboBoxTimer.Text, out int interval) && interval > 0) // корректный интервал таймера
+            {
                 MainTimer.Interval = interval;
-            else SetDefaultInterval();
-        }
-
-        private void SetDefaultInterval()
-        {
-            MainTimer.Interval = defaultTimerInterval;
-            comboBoxTimer.Text = MainTimer.Interval.ToString();
+            }
+            else
+            {
+                SetDefaultInterval();
+            }
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -194,9 +145,11 @@ namespace Game_Of_Life
             widthWhenEndResize = Size.Width;
             heightWhenEndResize = Size.Height;
 
-            // событие срабатывает при перемещении окна, поэтому если размеры окна не изменились, то ничего не делаем
+            // событие срабатывает при перемещении окна, поэтому если размеры окна не изменились, то новое поле не создается
             if (widthWhenBeginResize == widthWhenEndResize && heightWhenBeginResize == heightWhenEndResize)
+            {
                 return;
+            }
 
             pctrBox.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pctrBox.Image);
@@ -215,12 +168,57 @@ namespace Game_Of_Life
             field.Draw(res, g, pctrBox);
         }
 
+        private void MainForm_ResizeBegin(object sender, EventArgs e)
+        {
+            widthWhenBeginResize = Size.Width;
+            heightWhenBeginResize = Size.Height;
+        }
+
+        private void MainTimer_Tick(object sender, EventArgs e)
+        {
+            field.NextGeneration();
+            labelPopulation.Text = $"Population: {field.PopulationCount}";
+            labelGen.Text = $"Generation: {field.GenCount}";
+            tickPerSecond++;
+
+            field.Draw(res, g, pctrBox);
+        }
+
+        private void numericUpDownRank_ValueChanged(object sender, EventArgs e)
+        {
+            rank = (int)numericUpDownRank.Value;
+            field.rank = rank;
+        }
+
+        private void numUpDownDensity_ValueChanged(object sender, EventArgs e)
+        {
+            density = (int)numUpDownDensity.Value;
+        }
+
+        private void numUpDownRes_ValueChanged(object sender, EventArgs e)
+        {
+            field.zoom = 1;
+            labelZoom.Text = $"Zoom {field.zoom}x";
+            res = (int)numUpDownRes.Value;
+            CellularAutomaton tempField = new CellularAutomaton(pctrBox.Width / res, pctrBox.Height / res, B, S, rank);
+            tempField.Insert(field.Crop(), true);
+            field = tempField;
+
+            if (!MainTimer.Enabled)
+            {
+                field.Draw(res, g, pctrBox);
+            }
+        }
+
         private void PctrBox_MouseClick(object sender, MouseEventArgs e)
         {
             int x = (int)((e.Location.X - field.zoomMemoryOffsetX) / field.zoom / res);
             int y = (int)((e.Location.Y - field.zoomMemoryOffsetY) / field.zoom / res);
             if (!ValidateMousePos(x, y))
+            {
                 return;
+            }
+
             mouseLastPosX = x;
             mouseLastPosY = y;
 
@@ -241,8 +239,7 @@ namespace Game_Of_Life
                     break;
 
                 case MouseButtons.Middle when field.zoom > 1:
-                    field.zoomEndOffsetX = e.Location.X;
-                    field.zoomEndOffsetY = e.Location.Y;
+                    field.UpdateOffset(e.X, e.Y);
                     labelX.Text = $"X: {Math.Abs(field.zoomOffsetX)}";
                     labelY.Text = $"Y: {Math.Abs(field.zoomOffsetY)}";
                     fieldChanged = true;
@@ -253,39 +250,20 @@ namespace Game_Of_Life
             }
 
             if (!MainTimer.Enabled && fieldChanged)
+            {
+                labelPopulation.Text = $"Population: {field.PopulationCount}";
                 field.Draw(res, g, pctrBox);
-        }
-
-        private void numUpDownRes_ValueChanged(object sender, EventArgs e)
-        {
-            field.zoom = 1;
-            labelZoom.Text = $"Zoom {field.zoom}x";
-            res = (int)numUpDownRes.Value;
-            CellularAutomaton tempField = new CellularAutomaton(pctrBox.Width / res, pctrBox.Height / res, B, S, rank);
-            tempField.Insert(field.Crop(), true);
-            field = tempField;
-
-            if (!MainTimer.Enabled)
-                field.Draw(res, g, pctrBox);
-        }
-
-        private void numUpDownDensity_ValueChanged(object sender, EventArgs e)
-        {
-            density = (int)numUpDownDensity.Value;
-        }
-
-        private void numericUpDownRank_ValueChanged(object sender, EventArgs e)
-        {
-            rank = (int)numericUpDownRank.Value;
-            field.rank = rank;
+            }
         }
 
         private void pctrBox_MouseDown(object sender, MouseEventArgs e)
         {
-            int x = (int)(e.Location.X / res / field.zoom);
-            int y = (int)(e.Location.Y / res / field.zoom);
+            int x = (int)((e.Location.X - field.zoomMemoryOffsetX) / field.zoom / res);
+            int y = (int)((e.Location.Y - field.zoomMemoryOffsetY) / field.zoom / res);
             if (!ValidateMousePos(x, y))
+            {
                 return;
+            }
 
             bool fieldChanged = false;
             mouseLastPosX = x;
@@ -298,10 +276,7 @@ namespace Game_Of_Life
                     break;
 
                 case MouseButtons.Middle when field.zoom > 1:
-                    field.zoomStartOffsetX = e.X;
-                    field.zoomStartOffsetY = e.Y;
-                    field.zoomEndOffsetX = e.X;
-                    field.zoomEndOffsetY = e.Y;
+                    field.StartChangingOffset(e.X, e.Y);
                     break;
 
                 default:
@@ -309,15 +284,34 @@ namespace Game_Of_Life
             }
 
             if (!MainTimer.Enabled && fieldChanged)
+            {
                 field.Draw(res, g, pctrBox);
+            }
+        }
+
+        private void pctrBox_MouseLeave(object sender, EventArgs e)
+        {
+            if (!field.SelectionIsStarted)
+            {
+                return;
+            }
+
+            field.EndSelection(mouseLastPosX, mouseLastPosY);
+
+            if (!MainTimer.Enabled)
+            {
+                field.Draw(res, g, pctrBox);
+            }
         }
 
         private void pctrBox_MouseUp(object sender, MouseEventArgs e)
         {
-            int x = (int)(e.Location.X / res / field.zoom);
-            int y = (int)(e.Location.Y / res / field.zoom);
+            int x = (int)((e.Location.X - field.zoomMemoryOffsetX) / field.zoom / res);
+            int y = (int)((e.Location.Y - field.zoomMemoryOffsetY) / field.zoom / res);
             if (!ValidateMousePos(x, y))
+            {
                 return;
+            }
 
             bool fieldChanged = false;
             mouseLastPosX = x;
@@ -335,12 +329,7 @@ namespace Game_Of_Life
                     break;
 
                 case MouseButtons.Middle when field.zoom > 1:
-                    field.zoomMemoryOffsetX = field.zoomOffsetX;
-                    field.zoomMemoryOffsetY = field.zoomOffsetY;
-                    field.zoomStartOffsetX = 0;
-                    field.zoomStartOffsetY = 0;
-                    field.zoomEndOffsetX = 0;
-                    field.zoomEndOffsetY = 0;
+                    field.EndChangingOffset();
                     break;
 
                 default:
@@ -349,62 +338,92 @@ namespace Game_Of_Life
 
             if (!MainTimer.Enabled && fieldChanged)
             {
-                labelPopulationCount.Text = field.PopulationCount.ToString();
+                labelPopulation.Text = $"Population: {field.PopulationCount}";
                 field.Draw(res, g, pctrBox);
             }
         }
 
-        private void pctrBox_MouseLeave(object sender, EventArgs e)
+        private async void PctrBox_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (!field.SelectionIsStarted)
-                return;
-
-            field.EndSelection(mouseLastPosX, mouseLastPosY);
-
-            if (!MainTimer.Enabled)
-                field.Draw(res, g, pctrBox);
+            await Zoom(e);
         }
 
-        private void pctrBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void SetDefaultInterval()
         {
-            _ = pctrBox.Focus();
-
-            switch (e.KeyCode)
-            {
-                case Keys.Left:
-                    field.zoomMemoryOffsetX += 10;
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        private void MainForm_ResizeBegin(object sender, EventArgs e)
-        {
-            widthWhenBeginResize = Size.Width;
-            heightWhenBeginResize = Size.Height;
-        }
-
-        private void MainTimer_Tick(object sender, EventArgs e)
-        {
-            field.NextGeneration();
-            labelPopulationCount.Text = field.PopulationCount.ToString();
-            labelGenCount.Text = field.GenCount.ToString();
-            tickPerSecond++;
-
-            field.Draw(res, g, pctrBox);
+            MainTimer.Interval = defaultTimerInterval;
+            comboBoxTimer.Text = MainTimer.Interval.ToString();
         }
 
         private void SpeedMeasurementTimer_Tick(object sender, EventArgs e)
         {
-            labelSpeedNum.Text = tickPerSecond.ToString();
+            labelSpeed.Text = $"Speed (gen/s): {tickPerSecond}";
             tickPerSecond = 0;
+        }
+
+        /// <summary>
+        /// Запуск таймера.
+        /// </summary>
+        private void StartGame()
+        {
+            MainTimer.Start();
+
+            btnNext.Enabled = false;
+            btnStart.Enabled = false;
+            btnStop.Enabled = true;
+        }
+
+        /// <summary>
+        /// Остановка таймера.
+        /// </summary>
+        private void StopGame()
+        {
+            MainTimer.Stop();
+
+            btnNext.Enabled = true;
+            btnStart.Enabled = true;
+            btnStop.Enabled = false;
         }
 
         private bool ValidateMousePos(int x, int y)
         {
             return x >= 0 && y >= 0 && x < field.cols && y < field.rows;
+        }
+
+        private async Task Zoom(MouseEventArgs e, int minZoom = 1, int maxZoom = 4)
+        {
+            if (animationIsStarted || (e.Delta < 0 && CloseEnough(field.zoom, minZoom))
+                                   || (e.Delta > 0 && CloseEnough(field.zoom, maxZoom)))
+            {
+                return;
+            }
+
+            double goalZoom = field.zoom + (e.Delta > 0 ? 1 : -1);
+            const int framesForAnimation = 10;
+            animationIsStarted = true;
+
+            if (CloseEnough(1, goalZoom))
+            {
+                field.zoomOffsetX = 0;
+                field.zoomOffsetY = 0;
+                field.zoomMemoryOffsetX = 0;
+                field.zoomMemoryOffsetY = 0;
+                labelX.Text = "X: 0";
+                labelY.Text = "Y: 0";
+            }
+
+            while (!CloseEnough(field.zoom, goalZoom))
+            {
+                field.zoom += e.Delta > 0 ? 1.0 / framesForAnimation : -1.0 / framesForAnimation;
+
+                labelZoom.Text = $"Zoom: {field.zoom}x";
+                if (!MainTimer.Enabled)
+                {
+                    field.Draw(res, g, pctrBox);
+                }
+                await Task.Delay(20);
+            }
+
+            animationIsStarted = false;
         }
     }
 }

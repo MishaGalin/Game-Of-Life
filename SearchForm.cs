@@ -35,14 +35,15 @@ namespace Game_Of_Life
 
             await Task.Run(() =>
             {
-                long progress = 0;
-                const int LimitOnSearchSteps = 15;
+                float progress = 0;
+                const int LimitOnSearchSteps = 25;
                 long numOfCombinations = (long)Math.Pow(2, width * height);
                 List<int> checkedFields = new List<int>();
 
                 _ = Parallel.For(0, numOfCombinations + 1, delegate (long i) // основной цикл с перебором всех вариантов начальных условий
                {
                    progress++;
+                   bool isFound = false;
                    CellularAutomaton field = new CellularAutomaton(30, 30, b, s, rank);
                    List<CellularAutomaton> listOfFields = new List<CellularAutomaton>();
 
@@ -60,40 +61,51 @@ namespace Game_Of_Life
                    }
 
                    int sumOfNeighbours = field.GetSumOfAllNeighbours();
-                   if (checkedFields.Contains(sumOfNeighbours)) return;
-                   else checkedFields.Add(sumOfNeighbours); // запоминание уже проверенных начальных условий
+                   if (checkedFields.Contains(sumOfNeighbours))
+                   {
+                       return;
+                   }
+                   else
+                   {
+                       checkedFields.Add(sumOfNeighbours); // запоминаем начальное условие как проверенное
+                   }
 
                    for (int j = 0; j < LimitOnSearchSteps; j++) // поиск состояния, совпадающего хотя бы с одним из предыдущих
                    {
-                       bool isFound = false;
                        listOfFields.Add(field.Clone());
                        field.NextGeneration();
 
-                       foreach (CellularAutomaton fieldFromList in listOfFields)
+                       if (field.IsEmpty())
                        {
-                           if (fieldFromList == field && !field.IsEmpty())  // сравнение с предыдущими состояниями для выявления фигур
+                           break;
+                       }
+
+                       for (int k = 1; k < listOfFields.Count; k++)
+                       {
+                           if (listOfFields[k] == field && !listOfFields.Last().IsEmpty())  // сравнение с предыдущими состояниями для выявления фигур
                            {
-                               favoriteFields.Add(field.Crop());
-                               checkedFields.Add(field.GetSumOfAllNeighbours());
+                               favoriteFields.Add(listOfFields.Last().Crop());
                                isFound = true;
-                               return;
+                               break;
                            }
                        }
 
-                       if (isFound || field.IsEmpty())
+                       if (isFound)
+                       {
                            break;
+                       }
                    }
 
                    _ = Invoke((Action)(() =>
-                     {
-                         progressBar1.Value = (int)((float)(progress + 1) / numOfCombinations * 100);
-                     }));
+                   {
+                       progressBar1.Value = (int)(progress / numOfCombinations * 100);
+                   }));
                });
             });
 
+            timer1.Stop();
             btnSearch.Enabled = true;
             progressBar1.Value = 100;
-            timer1.Stop();
 
             if (favoriteFields.Count > 0)
             {
@@ -110,10 +122,10 @@ namespace Game_Of_Life
         {
             await Task.Run(() =>
             {
-                time += (decimal)timer1.Interval / 1000;
                 _ = Invoke((Action)(() =>
               {
-                  label5.Text = $"{time} s";
+                  time += (decimal)timer1.Interval / 1000;
+                  labelTime.Text = $"Time: {time} s";
               }));
             });
         }

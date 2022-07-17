@@ -43,9 +43,8 @@
             this.numUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.btnSearch = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelTime = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRank)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownHeight)).BeginInit();
@@ -56,14 +55,14 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.numericUpDownRank);
             this.groupBox1.Controls.Add(this.numUpDownHeight);
-            this.groupBox1.Controls.Add(this.labelRank);
             this.groupBox1.Controls.Add(this.textBoxS);
-            this.groupBox1.Controls.Add(this.textBoxB);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.numericUpDownRank);
+            this.groupBox1.Controls.Add(this.labelRank);
+            this.groupBox1.Controls.Add(this.textBoxB);
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.labelRes);
             this.groupBox1.Controls.Add(this.numUpDownWidth);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -252,43 +251,29 @@
             this.progressBar1.Size = new System.Drawing.Size(289, 30);
             this.progressBar1.TabIndex = 20;
             // 
-            // label4
+            // labelTime
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.labelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label4.Location = new System.Drawing.Point(457, 109);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 20);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "Time: ";
+            this.labelTime.AutoSize = true;
+            this.labelTime.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.labelTime.Location = new System.Drawing.Point(457, 110);
+            this.labelTime.Name = "labelTime";
+            this.labelTime.Size = new System.Drawing.Size(78, 20);
+            this.labelTime.TabIndex = 22;
+            this.labelTime.Text = "Time: 0.0 s";
             // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label5.Location = new System.Drawing.Point(501, 109);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 20);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "0,0 s";
             // 
             // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(559, 144);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.labelTime);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.groupBox1);
@@ -321,9 +306,8 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.NumericUpDown numUpDownHeight;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelTime;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown numericUpDownRank;
         private System.Windows.Forms.Label labelRank;
     }

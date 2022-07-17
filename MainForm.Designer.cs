@@ -36,10 +36,8 @@
             this.labelZoom = new System.Windows.Forms.Label();
             this.numericUpDownRank = new System.Windows.Forms.NumericUpDown();
             this.labelRank = new System.Windows.Forms.Label();
-            this.labelPopulationCount = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelPopulation = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.labelSpeedNum = new System.Windows.Forms.Label();
             this.labelSpeed = new System.Windows.Forms.Label();
             this.btnApply = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -49,7 +47,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxTimer = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.labelGenCount = new System.Windows.Forms.Label();
             this.labelGen = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
@@ -89,10 +86,8 @@
             this.splitContainer1.Panel1.Controls.Add(this.labelZoom);
             this.splitContainer1.Panel1.Controls.Add(this.numericUpDownRank);
             this.splitContainer1.Panel1.Controls.Add(this.labelRank);
-            this.splitContainer1.Panel1.Controls.Add(this.labelPopulationCount);
-            this.splitContainer1.Panel1.Controls.Add(this.label4);
+            this.splitContainer1.Panel1.Controls.Add(this.labelPopulation);
             this.splitContainer1.Panel1.Controls.Add(this.btnSearch);
-            this.splitContainer1.Panel1.Controls.Add(this.labelSpeedNum);
             this.splitContainer1.Panel1.Controls.Add(this.labelSpeed);
             this.splitContainer1.Panel1.Controls.Add(this.btnApply);
             this.splitContainer1.Panel1.Controls.Add(this.button1);
@@ -102,7 +97,6 @@
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.comboBoxTimer);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
-            this.splitContainer1.Panel1.Controls.Add(this.labelGenCount);
             this.splitContainer1.Panel1.Controls.Add(this.labelGen);
             this.splitContainer1.Panel1.Controls.Add(this.btnClear);
             this.splitContainer1.Panel1.Controls.Add(this.btnNext);
@@ -192,27 +186,16 @@
             this.labelRank.TabIndex = 25;
             this.labelRank.Text = "Rank";
             // 
-            // labelPopulationCount
+            // labelPopulation
             // 
-            this.labelPopulationCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelPopulationCount.AutoSize = true;
-            this.labelPopulationCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPopulationCount.Location = new System.Drawing.Point(666, 45);
-            this.labelPopulationCount.Name = "labelPopulationCount";
-            this.labelPopulationCount.Size = new System.Drawing.Size(17, 20);
-            this.labelPopulationCount.TabIndex = 24;
-            this.labelPopulationCount.Text = "0";
-            // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(555, 45);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(83, 20);
-            this.label4.TabIndex = 23;
-            this.label4.Text = "Population:";
+            this.labelPopulation.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelPopulation.AutoSize = true;
+            this.labelPopulation.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPopulation.Location = new System.Drawing.Point(555, 45);
+            this.labelPopulation.Name = "labelPopulation";
+            this.labelPopulation.Size = new System.Drawing.Size(95, 20);
+            this.labelPopulation.TabIndex = 23;
+            this.labelPopulation.Text = "Population: 0";
             // 
             // btnSearch
             // 
@@ -227,17 +210,6 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
-            // labelSpeedNum
-            // 
-            this.labelSpeedNum.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelSpeedNum.AutoSize = true;
-            this.labelSpeedNum.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSpeedNum.Location = new System.Drawing.Point(666, 75);
-            this.labelSpeedNum.Name = "labelSpeedNum";
-            this.labelSpeedNum.Size = new System.Drawing.Size(17, 20);
-            this.labelSpeedNum.TabIndex = 20;
-            this.labelSpeedNum.Text = "0";
-            // 
             // labelSpeed
             // 
             this.labelSpeed.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -245,9 +217,9 @@
             this.labelSpeed.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSpeed.Location = new System.Drawing.Point(555, 75);
             this.labelSpeed.Name = "labelSpeed";
-            this.labelSpeed.Size = new System.Drawing.Size(105, 20);
+            this.labelSpeed.Size = new System.Drawing.Size(117, 20);
             this.labelSpeed.TabIndex = 19;
-            this.labelSpeed.Text = "Speed (gen/s):";
+            this.labelSpeed.Text = "Speed (gen/s): 0";
             // 
             // btnApply
             // 
@@ -348,17 +320,6 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "Timer (ms):";
             // 
-            // labelGenCount
-            // 
-            this.labelGenCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.labelGenCount.AutoSize = true;
-            this.labelGenCount.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGenCount.Location = new System.Drawing.Point(666, 15);
-            this.labelGenCount.Name = "labelGenCount";
-            this.labelGenCount.Size = new System.Drawing.Size(17, 20);
-            this.labelGenCount.TabIndex = 10;
-            this.labelGenCount.Text = "0";
-            // 
             // labelGen
             // 
             this.labelGen.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -366,9 +327,9 @@
             this.labelGen.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelGen.Location = new System.Drawing.Point(555, 15);
             this.labelGen.Name = "labelGen";
-            this.labelGen.Size = new System.Drawing.Size(85, 20);
+            this.labelGen.Size = new System.Drawing.Size(97, 20);
             this.labelGen.TabIndex = 9;
-            this.labelGen.Text = "Generation:";
+            this.labelGen.Text = "Generation: 0";
             // 
             // btnClear
             // 
@@ -508,7 +469,6 @@
             this.pctrBox.MouseLeave += new System.EventHandler(this.pctrBox_MouseLeave);
             this.pctrBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PctrBox_MouseClick);
             this.pctrBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pctrBox_MouseUp);
-            this.pctrBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pctrBox_PreviewKeyDown);
             // 
             // MainTimer
             // 
@@ -517,6 +477,7 @@
             // 
             // SpeedMeasurementTimer
             // 
+            this.SpeedMeasurementTimer.Enabled = true;
             this.SpeedMeasurementTimer.Interval = 1000;
             this.SpeedMeasurementTimer.Tick += new System.EventHandler(this.SpeedMeasurementTimer_Tick);
             // 
@@ -530,7 +491,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(900, 800);
+            this.MinimumSize = new System.Drawing.Size(1000, 800);
             this.Name = "MainForm";
             this.Text = "Game of Life";
             this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin);
@@ -561,7 +522,6 @@
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Timer MainTimer;
-        private System.Windows.Forms.Label labelGenCount;
         private System.Windows.Forms.Label labelGen;
         private System.Windows.Forms.ComboBox comboBoxTimer;
         private System.Windows.Forms.Label label1;
@@ -571,12 +531,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnApply;
-        private System.Windows.Forms.Label labelSpeedNum;
         private System.Windows.Forms.Label labelSpeed;
         private System.Windows.Forms.Timer SpeedMeasurementTimer;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.Label labelPopulationCount;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelPopulation;
         private System.Windows.Forms.NumericUpDown numericUpDownRank;
         private System.Windows.Forms.Label labelRank;
         private System.Windows.Forms.Label labelZoom;
