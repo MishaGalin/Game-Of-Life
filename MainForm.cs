@@ -44,7 +44,6 @@ namespace Game_Of_Life
             InitializeComponent();
             SetDefaultInterval();
             pctrBox.MouseWheel += PctrBox_MouseWheel;
-            field.MyEvent += new EventDelegate()
 
             pctrBox.Image = new Bitmap(Width, Height);
             g = Graphics.FromImage(pctrBox.Image);
